@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pelatih Timnas</title>
+<style>
+:root{--bg:#f6f3ee;--card:#fff;--ink:#1d1a17;--mute:#6f675f;--red:#c8102e;--grass:#2f7d4f;--line:#e2dcd3;--warn:#d98a00;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15130f;--card:#201d19;--ink:#f2ede6;--mute:#a49b90;--red:#ef4a63;--grass:#58b57f;--line:#363029;--warn:#f0b13a}}
+:root[data-theme="dark"]{--bg:#15130f;--card:#201d19;--ink:#f2ede6;--mute:#a49b90;--red:#ef4a63;--grass:#58b57f;--line:#363029;--warn:#f0b13a}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;line-height:1.45}
+main{max-width:620px;margin:0 auto;padding:14px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:1.7rem;margin:4px 0 2px;letter-spacing:-.5px}
+.sub{color:var(--mute);margin:0 0 12px;font-size:.92rem}
+.bar{display:flex;gap:8px;margin-bottom:12px}
+.stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.stat b{display:block;font-size:1.25rem}
+.stat span{font-size:.75rem;color:var(--mute)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+.panel h2{font-size:1rem;margin:0 0 8px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:10px;text-align:left}
+button small{display:block;color:var(--mute);font-size:.76rem}
+button:hover:not(:disabled){border-color:var(--red)}
+button:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.go{background:var(--red);color:#fff;border-color:var(--red);text-align:center;font-weight:700;width:100%;padding:13px}
+.go:hover:not(:disabled){border-color:var(--ink)}
+.hero{position:relative;overflow:hidden;border-radius:14px;margin-bottom:12px;padding:12px 12px 14px;color:#fff;background:linear-gradient(135deg,#9d0b22,#c8102e 60%,#e23a52)}
+.hero:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 14px,transparent 14px 28px)}
+.hero>*{position:relative}
+.hero .top{display:flex;gap:12px;align-items:center}
+.hero svg.emb{width:52px;height:60px;flex:none}
+.hero .t b{font-family:Georgia,serif;font-size:1.05rem}
+.hero .t span{display:block;font-size:.8rem;opacity:.92}
+.pg{height:10px;background:rgba(0,0,0,.28);border-radius:5px;margin-top:6px;overflow:hidden}.pg div{height:100%;background:linear-gradient(90deg,#ffe14d,#fff)}
+.trk{display:flex;gap:3px;margin-top:10px}
+.c{flex:1;height:8px;border-radius:2px;background:rgba(255,255,255,.25)}.c.W{background:#7be0a1}.c.D{background:#ffe14d}.c.L{background:#1d1a17}
+.hero svg.crowd{position:absolute;left:0;bottom:0;width:100%;height:30px;opacity:.22}
+.board{width:100%;height:auto;display:block;margin:10px 0}
+.segs{display:grid;gap:6px;margin-bottom:8px}.seg{display:flex;gap:4px;align-items:center}.seg span{flex:0 0 92px;font-size:.78rem;color:var(--mute)}.seg button{flex:1;text-align:center;padding:6px 2px;font-size:.82rem}.seg button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dash{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center}
+.low div{background:var(--red)}
+.pscene{border-radius:10px;overflow:hidden;margin:6px 0}.pscene svg{display:block;width:100%;height:auto}.pscene .flashbg{opacity:0}
+.pj{display:flex;gap:10px;align-items:center;margin:8px 0}.pj small{display:block;color:var(--mute);font-size:.76rem}
+.pav{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;flex:none}.pm{font-size:1.7rem}
+.pq{background:var(--bg);border:1px solid var(--line);border-radius:14px 14px 14px 2px;padding:10px 12px;margin:4px 0}.pq p{margin:0;font-size:.95rem}
+.pdots{display:flex;gap:6px;margin:6px 0}.pd{width:26px;height:5px;border-radius:3px;background:var(--line)}.pd.on{background:var(--red)}.pd.dn{background:var(--grass)}
+.ans{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ans button{display:flex;gap:8px;align-items:center}.ans .ic{font-size:1.3rem}.ans small{display:block}
+.brk{position:fixed;left:8px;right:8px;top:calc(8px + env(safe-area-inset-top,0px));z-index:60;background:var(--red);color:#fff;border-radius:10px;padding:10px 14px;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.4);pointer-events:none;animation:brk 3.6s ease-out forwards}.brk.neg{background:#1d1a17}
+@keyframes brk{0%{transform:translateY(-130%)}10%,85%{transform:translateY(0)}100%{transform:translateY(-130%)}}
+@media (prefers-reduced-motion:no-preference){.pscene.flash .flashbg{animation:fb .5s}.fl{animation:flk 2.2s infinite}.pq p{animation:rev 1.2s steps(30)}@keyframes fb{0%{opacity:.85}100%{opacity:0}}@keyframes flk{0%,70%,100%{opacity:0}75%{opacity:1}}}
+.fm{display:block;text-align:left;font-size:.82rem;color:var(--mute);margin:10px 0}.fm input,.fm select{display:block;width:100%;margin-top:4px;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:.95rem}
+.qr input{flex:1;min-width:0;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:.85rem}
+.pic{width:100%;height:auto;border-radius:10px;margin:6px 0;display:block}
+.post button.bl{padding:0;border:0;background:none;color:var(--mute);font-size:.72rem;text-decoration:underline;margin:2px 0 0}
+.cm.rp{margin-left:22px;font-size:.78rem;background:rgba(127,127,127,.04)}.cm.of{border-left-color:var(--red)}
+.qr{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 4px 8px}.qr button{font-size:.76rem;padding:4px 8px}
+.champ{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);z-index:51;font:700 clamp(1.6rem,8vw,3rem) Georgia,serif;color:#ffe14d;text-shadow:0 4px 18px rgba(0,0,0,.6);text-align:center;pointer-events:none;width:90%;animation:champ 3.2s ease-out forwards}
+@keyframes champ{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}25%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.champ{animation:none}}
+body{background:radial-gradient(900px 320px at 50% -80px,rgba(200,16,46,.14),transparent),var(--bg)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+html{scroll-padding-top:calc(54px + env(safe-area-inset-top,0px))}
+h1{background:linear-gradient(90deg,var(--red),var(--ink));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1:after{content:"";display:block;height:5px;width:70px;margin-top:6px;border-radius:3px;background:linear-gradient(180deg,var(--red) 50%,#fff 50%);box-shadow:0 0 0 1px var(--line)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;gap:6px;overflow-x:auto;padding:8px 0;background:var(--bg);scrollbar-width:none}
+.nav button{flex:none;padding:6px 14px;border-radius:99px;font-size:.82rem;text-align:center}
+.panel{box-shadow:0 10px 26px -18px rgba(0,0,0,.45)}
+.panel h2{display:flex;align-items:center;gap:8px}.panel h2:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--red)}
+.stat{box-shadow:0 8px 20px -16px rgba(0,0,0,.5)}.stat b{font-family:Georgia,serif;color:var(--red)}
+button{transition:transform .15s,border-color .15s,box-shadow .15s}button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 14px -8px rgba(0,0,0,.4)}
+.pl{border-radius:6px;padding:5px 4px}.pl:nth-child(even){background:rgba(127,127,127,.06)}.pl:hover{background:rgba(200,16,46,.08)}
+.pp{font-weight:700!important}.pp.KIP{color:#d9a400}.pp.BEK{color:#3b82f6}.pp.GEL{color:var(--grass)}.pp.SAY{color:#e07a1f}.pp.PEN{color:var(--red)}
+.panel:not(.end)>.go{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom,0px));box-shadow:0 10px 24px -8px rgba(200,16,46,.55)}
+.cm{background:rgba(127,127,127,.07);border-radius:0 8px 8px 0}.cm.ht{border-left-color:var(--warn)}.fl{margin-right:4px}
+.tg2{background:var(--warn);color:#1d1a17;font-size:.6rem;padding:1px 6px;border-radius:99px;font-weight:700}
+.tag{background:var(--red);color:#fff;font-size:.62rem;padding:1px 6px;border-radius:99px;vertical-align:middle}
+.adv>div:last-child{flex:1}
+.feed{max-height:440px;overflow:auto}
+.post{border-top:1px solid var(--line);padding:8px 0}.post p{margin:6px 0}
+.ph{display:flex;gap:8px;align-items:center}.ph small{color:var(--mute)}
+.av2{width:30px;height:30px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none}
+.rxs{display:flex;gap:10px;flex-wrap:wrap;font-size:.82rem;margin:6px 0}
+.cm{font-size:.82rem;padding:3px 0 3px 8px;border-left:2px solid var(--line);margin:4px 0}.cm b{color:var(--red)}
+.post button{padding:4px 10px;font-size:.8rem;margin-top:4px}
+@media (prefers-reduced-motion:no-preference){.post.new{animation:pin .6s}@keyframes pin{from{opacity:0;transform:translateY(-10px)}}}
+.adv{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--red);border-radius:12px;padding:10px;margin-bottom:12px}
+.adv .av{flex:none;width:40px;height:40px;border-radius:50%;background:var(--red);display:grid;place-items:center;color:#fff;font-weight:700;font-size:.7rem}
+.adv b{display:block;font-size:.78rem;color:var(--mute)}
+.adv p{margin:2px 0 0;font-size:.92rem}
+.stg{display:inline-block;font-size:.74rem;padding:3px 8px;border-radius:99px;border:1px solid var(--line);margin:0 4px 4px 0;color:var(--mute)}.stg.on{background:var(--red);border-color:var(--red);color:#fff}.stg.dn{background:var(--grass);border-color:var(--grass);color:#fff}
+.tb{width:100%;border-collapse:collapse;font-size:.82rem}.tb th{color:var(--mute);font-weight:400;text-align:left}.tb td,.tb th{padding:4px 3px;border-top:1px solid var(--line)}.tb tr.me{font-weight:700;background:rgba(200,16,46,.1)}.tb tr.up td:first-child{border-left:3px solid var(--grass)}
+.shelf{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;padding:10px 4px;border-bottom:6px solid var(--line)}
+.cup{display:flex;flex-direction:column;align-items:center}.cup small{font-size:.68rem;color:var(--mute)}.cup svg{width:44px;color:var(--mute)}
+@media (prefers-reduced-motion:no-preference){.adv.in{animation:slin .6s cubic-bezier(.2,.9,.3,1.2)}.adv.in p{animation:rev 1.4s steps(28)}.cup.got svg{animation:shine 2.6s ease-in-out infinite}@keyframes slin{from{opacity:0;transform:translateX(-30px)}}@keyframes rev{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}@keyframes shine{50%{filter:drop-shadow(0 0 6px #f5c518)}}}
+@media (prefers-reduced-motion:no-preference){.hero svg.crowd{animation:wave 2.4s ease-in-out infinite}@keyframes wave{50%{transform:translateY(-3px)}}}
+.tac{display:flex;gap:6px;flex-wrap:wrap}.tac button{flex:1 0 28%;text-align:center;padding:8px 4px}
+.tac button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pl{display:grid;grid-template-columns:1.3fr repeat(4,1fr) .8fr;gap:4px;align-items:center;font-size:.8rem;padding:4px 0;border-top:1px solid var(--line)}
+.pl:first-of-type{border-top:0}
+.pl .n{font-weight:700}.pl .n i{display:block;font-style:normal;color:var(--mute);font-weight:400;font-size:.7rem}
+.hd{color:var(--mute);font-size:.7rem;border:0}
+.m{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:2px}
+.m div{height:100%;background:var(--grass)}
+.fat div{background:var(--warn)}
+.pl span{text-align:center}
+#pitch{background:var(--grass);color:#fff;border-radius:12px;padding:14px;text-align:center;margin-bottom:12px}
+#pitch .score{font-size:2.4rem;font-weight:700;font-family:Georgia,serif}
+#pitch .min{opacity:.85}
+#log{max-height:200px;overflow:auto;font-size:.88rem;text-align:left;margin-top:8px;background:rgba(0,0,0,.18);border-radius:8px;padding:8px}
+#log p{margin:2px 0}
+.msg{color:var(--mute);font-size:.88rem;margin:8px 0 0}
+.end{text-align:center}
+.end h2{font-family:Georgia,serif;font-size:1.5rem}
+.field{position:relative;height:120px;margin:10px 0;border:2px solid rgba(255,255,255,.75);border-radius:8px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 12.5%,transparent 12.5% 25%);overflow:hidden}
+.field i{position:absolute;display:block}
+.field .mid{left:50%;top:0;bottom:0;border-left:2px solid rgba(255,255,255,.6)}
+.field .circ{left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border:2px solid rgba(255,255,255,.6);border-radius:50%}
+.field .gl{top:35%;height:30%;width:14px;border:2px solid rgba(255,255,255,.75)}
+.gl.l{left:0;border-left:0!important}.gl.r{right:0;border-right:0!important}
+.ball{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.4),inset -3px -3px 0 #bbb}
+#banner{position:absolute;inset:0;display:grid;place-items:center;font:700 2.2rem Georgia,serif;opacity:0;pointer-events:none;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+#banner.us{color:#ffe14d}#banner.them{color:#ffd0d0}
+.pl span{position:relative}
+em.up{position:absolute;right:0;top:-6px;font-style:normal;font-weight:700;color:var(--grass);font-size:.75rem}
+@media (prefers-reduced-motion:no-preference){
+.m div{transition:width .35s}
+.ball{transition:left .55s cubic-bezier(.3,.7,.3,1)}
+#banner.show{animation:ban 1.1s ease-out}
+.pop{animation:pop .5s}
+.shake{animation:shake .4s}
+em.up{animation:upf 1.4s ease-out forwards}
+button:active:not(:disabled){transform:scale(.97)}
+.go:not(:disabled){animation:pulse 2.2s infinite}
+@keyframes ban{0%{opacity:0;transform:scale(.4)}25%{opacity:1;transform:scale(1.15)}80%{opacity:1}100%{opacity:0;transform:scale(1)}}
+@keyframes pop{50%{transform:scale(1.35)}}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes upf{0%{opacity:0;transform:translateY(8px)}20%{opacity:1}100%{opacity:1;transform:translateY(-6px)}}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(200,16,46,.22)}}
+}
+</style>
+</head>
+<body>
+<main>
+<h1>Pelatih Timnas</h1>
+<p class="sub">Jalani Piala AFF, Kualifikasi Piala Dunia, Piala Dunia, dan Piala Asia. Selama kontrak berlaku, permainan terus berlanjut dan bisa diperpanjang. Jaga kepuasan PSSI supaya tidak dipecat. Nama pemain dan tim nyata, statistik hanya rekaan untuk game.</p>
+
+<nav class="nav" aria-label="Pintasan"><button onclick="goto('Sesi')">Latihan</button><button onclick="goto('Taktik')">Taktik</button><button onclick="goto('Media')">Medsos</button><button onclick="goto('Kabinet')">Trofi</button><button onclick="goto('Naturalisasi')">Naturalisasi</button><button onclick="goto('Skuad')">Skuad</button></nav>
+<div id="app"></div>
+</main>
+
+<script>
+const NAMES=[["Maarten Paes","KIP"],["Sandy Walsh","BEK"],["Jay Idzes","BEK"],["Justin Hubner","BEK"],["Calvin Verdonk","BEK"],["Thom Haye","GEL"],["Nathan Tjoe-A-On","GEL"],["Marselino Ferdinan","GEL"],["Ragnar Oratmangoen","SAY"],["Ole Romeny","PEN"],["Rafael Struick","PEN"]];
+const TIM=["Filipina","Bahrain","China","Irak","Arab Saudi","Australia","Korea Selatan","Jepang","Iran","Qatar"];
+const LAWAN=Array.from({length:20},(_,i)=>[TIM[i%10]+(i>=10?" (balik)":""),Math.round(46+i*2.2),["bal","atk","def"][i%3]]);
+const TARGET=36;
+const FORM={"4-3-3":{a:1.1,d:.95},"4-4-2":{a:1,d:1},"5-3-2":{a:.9,d:1.15},"3-5-2":{a:1.05,d:1}};
+const NAT=[{n:"Joey Pelupessy",p:"GEL",c:40,s:[60,62,62,60]},{n:"Jordi Amat",p:"BEK",c:40,s:[60,56,64,64]},{n:"Mauro Zijlstra",p:"SAY",c:40,s:[62,60,54,56]},{n:"Eliano Reijnders",p:"GEL",c:45,s:[62,66,60,58]},{n:"Jens Raven",p:"PEN",c:45,s:[64,62,56,58]},{n:"Kevin Diks",p:"BEK",c:50,s:[64,60,62,62]},{n:"Mees Hilgers",p:"BEK",c:55,s:[66,62,66,64]},{n:"Emil Audero",p:"KIP",c:60,s:[66,68,64,66]}];
+const PROG={
+ fisik:{n:"Fisik",d:"Naik stamina, lelah +14",s:"fisik",f:14},
+ teknik:{n:"Teknik",d:"Umpan dan tembakan, lelah +8",s:"teknik",f:8},
+ taktik:{n:"Taktik",d:"Posisi dan kerja sama, lelah +8",s:"taktik",f:8},
+ mental:{n:"Mental",d:"Fokus dan ketenangan, lelah +5",s:"mental",f:5},
+ pulih:{n:"Pemulihan",d:"Stamina +30, ritme terjaga",s:null,f:-30},skip:{n:"Lewati hari",d:"Stamina +14 sendiri, ritme -12",s:null,f:0}
+};
+const TAK={atk:{n:"Menyerang",a:1.25,d:.85,x:"Lebih banyak gol, tapi rawan kebobolan."},bal:{n:"Seimbang",a:1,d:1,x:"Stabil melawan siapa pun."},def:{n:"Bertahan",a:.8,d:1.25,x:"Rapatkan barisan, cocok melawan tim kuat."},cnt:{n:"Serangan Balik",a:1,d:1.1,x:"Serangan melonjak jika lawan lebih kuat."},prs:{n:"Tekanan Tinggi",a:1.15,d:.95,x:"Menekan sejak awal, tapi pemain lebih cepat lelah."}};
+let G;
+const r=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+function baru(){
+ G={pekan:0,sesi:4,poin:0,w:0,d:0,l:0,gf:0,ga:0,tak:"bal",form:"4-3-3",fam:{},dana:40,nat:[],ritme:70,skip:0,hist:[],fifa:1250,rk:[],tr:{},past:[],fin:false,lt:'',feed:[],kon:4,cand:[],mg:null,pc:null,med:50,pra:0,pu:60,sk:0,cn:{},q:0,offer:0,tempo:"nor",garis:"tgh",sisi:"seim",pl:NAMES.map(([n,p])=>({n,p,fisik:r(42,52),teknik:r(42,52),taktik:r(40,50),mental:r(42,52),lelah:r(0,10)})),info:"Ada 4 hari latihan sebelum laga. Hari yang tidak dipakai dihitung libur.",main:false,log:[],skor:[0,0],menit:0,ball:50,selesai:false};G.rk=[rank()];mkT(0);
+ draw();
+}
+function rating(){
+ const t=G.pl.reduce((s,p)=>s+(p.fisik*.25+p.teknik*.3+p.taktik*.25+p.mental*.2)*(1-p.lelah/180),0);
+ return t/G.pl.length*(.85+.15*G.ritme/100);
+}
+function latih(k){
+ if(G.main)return;
+ if(k=="skip")return skipDay();const pr=PROG[k];G.sesi++;G.skip=0;G.ritme=Math.min(100,G.ritme+(pr.s?10:2));G.pl.forEach(p=>{p.g=0;if(pr.s)p.lelah=cl(p.lelah-3,0,100)});if(k=="taktik")G.fam[G.tak]=(G.fam[G.tak]||0)+1;
+ if(pr.s){
+  G.pl.forEach(p=>{if(100-p.lelah<pr.f+8){p.g=0;return}const gain=p[pr.s]>88?r(0,1):p[pr.s]>75?r(1,2):r(2,5);p.g=gain;p.gs=pr.s;p[pr.s]=Math.min(99,p[pr.s]+gain);p.lelah=cl(p.lelah+pr.f+r(-2,3),0,100)});
+  G.info="Latihan "+pr.n+" selesai. Rating tim "+rating().toFixed(1)+".";
+ }else{
+  G.pl.forEach(p=>p.lelah=cl(p.lelah+pr.f,0,100));
+  G.info="Pemulihan selesai. Pemain lebih segar.";
+ }
+ const capek=G.pl.filter(p=>p.lelah>65).length;
+ if(capek>3)G.info+=" Awas, "+capek+" pemain kelelahan.";
+ draw();
+}
+const O={KIP:0,BEK:1,GEL:2,SAY:3,PEN:4};
+const OPT={tempo:{lbl:"Tempo",v:{pel:{n:"Pelan",a:.95,d:1.05,f:-3},nor:{n:"Normal",a:1,d:1,f:0},cep:{n:"Cepat",a:1.1,d:.95,f:4}}},garis:{lbl:"Garis belakang",v:{dlm:{n:"Dalam",a:.95,d:1.1},tgh:{n:"Tengah",a:1,d:1},tgi:{n:"Tinggi",a:1.08,d:.92}}},sisi:{lbl:"Arah serangan",v:{say:{n:"Sayap"},tgh:{n:"Tengah"},seim:{n:"Campur"}}}};
+const FP={"4-3-3":[[6,50],[24,14],[22,38],[22,62],[24,86],[46,25],[44,50],[46,75],[72,16],[76,50],[72,84]],"4-4-2":[[6,50],[24,14],[22,38],[22,62],[24,86],[46,14],[44,38],[44,62],[46,86],[72,35],[72,65]],"5-3-2":[[6,50],[22,10],[22,30],[20,50],[22,70],[22,90],[46,25],[44,50],[46,75],[72,35],[72,65]],"3-5-2":[[6,50],[22,25],[20,50],[22,75],[44,10],[44,30],[42,50],[44,70],[44,90],[72,35],[72,65]]};
+function setTak(k){G.tak=k;draw()}
+function setOpt(k,v){G[k]=v;draw()}
+function skipDay(q){
+ G.skip++;
+ G.ritme=Math.max(0,G.ritme-12);
+ G.pl.forEach(p=>{p.g=0;p.lelah=cl(p.lelah-14,0,100)});
+ if(G.skip>=2){const ks=["fisik","teknik","taktik","mental"];G.pl.forEach(p=>{const k=ks[r(0,3)];p[k]=Math.max(30,p[k]-r(1,2))});G.info="Libur terlalu lama! Stamina pulih, tapi kondisi pemain menurun."}
+ else G.info="Hari libur: stamina pulih sendiri, tapi ritme latihan turun.";
+ if(!q)draw();
+}
+function board(){
+ const P=[...G.pl].sort((a,b)=>O[a.p]-O[b.p]),F=FP[G.form],gx=({dlm:30,tgh:43,tgi:56})[G.garis]*5.6+20;
+ const dots=P.map((p,i)=>{const x=F[i][0]*5.6+20,y=F[i][1]*1.6+14,s=100-p.lelah,c=s>65?"#58b57f":s>35?"#f0b13a":"#ef4a63";
+  return `<circle cx="${x}" cy="${y}" r="10" fill="${c}" stroke="#fff" stroke-width="2"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="9" font-weight="700" fill="#1d1a17">${p.p[0]}</text><text x="${x}" y="${y+24}" text-anchor="middle" font-size="10" fill="#fff">${p.n.split(" ").pop().slice(0,9)}</text>`}).join("");
+ return `<svg class="board" viewBox="0 0 600 190" role="img" aria-label="Papan taktik"><rect width="600" height="190" rx="8" style="fill:var(--grass)"/><g fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"><rect x="6" y="6" width="588" height="178"/><line x1="300" y1="6" x2="300" y2="184"/><circle cx="300" cy="95" r="28"/><rect x="6" y="55" width="50" height="80"/><rect x="544" y="55" width="50" height="80"/></g><line x1="${gx}" y1="6" x2="${gx}" y2="184" stroke="#ffe14d" stroke-width="2" stroke-dasharray="6 5"/><text x="${gx+4}" y="18" font-size="10" fill="#ffe14d">garis belakang</text><text x="590" y="180" text-anchor="end" font-size="10" fill="#fff" opacity=".8">arah serang</text>${dots}</svg>`}
+function radar(){
+ const ks=["fisik","teknik","taktik","mental"],pt=(i,v)=>{const a=-Math.PI/2+i*Math.PI/2;return (60+Math.cos(a)*v).toFixed(1)+","+(63+Math.sin(a)*v).toFixed(1)};
+ const val=ks.map((k,i)=>pt(i,G.pl.reduce((s,p)=>s+p[k],0)/G.pl.length*.46)).join(" ");
+ const grid=[.33,.66,1].map(s=>`<polygon points="${ks.map((k,i)=>pt(i,46*s)).join(" ")}" fill="none" stroke="currentColor" opacity=".25"/>`).join("");
+ return `<svg viewBox="0 0 120 126" role="img" aria-label="Radar kekuatan tim" style="width:100%;color:var(--mute)">${grid}<polygon points="${val}" fill="#c8102e" fill-opacity=".4" stroke="#c8102e" stroke-width="2"/><g font-size="8" fill="currentColor"><text x="60" y="8" text-anchor="middle">Fisik</text><text x="118" y="66" text-anchor="end">Teknik</text><text x="60" y="124" text-anchor="middle">Taktik</text><text x="2" y="66">Mental</text></g></svg>`}
+function dash(){
+ const av=G.pl.reduce((s,p)=>s+100-p.lelah,0)/G.pl.length|0;
+ return `<div class="panel dash">${radar()}<div><b>Ritme latihan ${G.ritme}</b>${bar(G.ritme,G.ritme<40?"low":"")}<p class="msg">Turun tiap hari libur dan menekan rating tim sampai 15%.</p><b>Hubungan media ${G.med}</b>${bar(G.med,G.med<35?'low':G.med<60?'fat':'')}<b>Stamina rata-rata ${av}</b>${bar(av,av<40?"low":av<65?"fat":"")}</div></div>`}
+function hero(){
+ const tr=Array.from({length:20},(_,i)=>`<i class='c ${G.hist.slice(-20)[i]||''}'></i>`).join('');
+ return `<div class="hero"><svg class="crowd" viewBox="0 0 600 34" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="cr" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="8" r="4.2"/><rect x="2" y="10" width="8" height="6"/></pattern></defs><rect width="600" height="34" fill="url(#cr)"/></svg><div class="top"><svg class="emb" viewBox="0 0 58 68" aria-hidden="true"><path d="M29 2 L56 12 V36 C56 52 42 62 29 66 C16 62 2 52 2 36 V12 Z" fill="#fff" stroke="#ffe14d" stroke-width="3"/><path d="M29 8 L50 15 V36 C50 48 40 56 29 60 C18 56 8 48 8 36 V15 Z" fill="#c8102e"/><polygon points="29,16 33,26 44,26.5 35.5,33 38.5,44 29,37.5 19.5,44 22.5,33 14,26.5 25,26" fill="#ffe14d"/></svg><div class="t" style="flex:1"><b>${G.T.c.nama}</b><span>Coach ${G.mg.nama} (${G.mg.umur}) · Rank FIFA #${rank()} · ${G.w}M ${G.d}S ${G.l}K</span><div class="pg"><div style="width:${Math.min(100,(G.T.i+(G.fin?1:0))/ST.length*100)}%"></div></div></div></div><div class="trk">${tr}</div></div>`}
+function setForm(k){G.form=k;draw()}
+function natur(i){
+ const c=NAT[i];if(G.main||G.dana<c.c||G.nat.includes(c.n))return;
+ G.dana-=c.c;G.nat.push(c.n);
+ const ov=p=>p.fisik+p.teknik+p.taktik+p.mental;
+ let cand=G.pl.filter(p=>p.p==c.p);if(!cand.length)cand=G.pl;
+ const w=repP()||cand.reduce((a,b)=>ov(a)<ov(b)?a:b);
+ G.pl[G.pl.indexOf(w)]={n:c.n,p:c.p,fisik:c.s[0],teknik:c.s[1],taktik:c.s[2],mental:c.s[3],lelah:0,nat:1};
+ G.info=c.n+" resmi menjadi WNI dan menggantikan "+w.n+".";post('nat',news('nat',{n:c.n}),{n:c.n,o:'',s:'',t:''});draw();
+}
+function laga(){
+ if(G.main)return;
+ if(G.fin)return;if(G.pc){G.pc=null;G.pu=Math.max(0,G.pu-1);G.med=Math.max(0,G.med-3)}G.main=true;G.log=[];G.skor=[0,0];G.menit=0;
+ const [lw,lr]=cur();const t=TAK[G.tak];G.vs=lw;G.ball=50;
+ const ours=Math.max(rating(),10);const fm=FORM[G.form];const fb=1+Math.min(.15,(G.fam[G.tak]||0)*.03);let ta=t.a*fm.a*fb,td=t.d*fm.d*fb;if(G.tak=="cnt"&&lr>ours)ta*=1.3;G.fam[G.tak]=(G.fam[G.tak]||0)+1;const to=OPT.tempo.v[G.tempo],go=OPT.garis.v[G.garis];ta*=to.a*go.a;td*=to.d*go.d;const af=G.pl.reduce((s,p)=>s+p.fisik,0),at=G.pl.reduce((s,p)=>s+p.teknik,0);if(G.sisi=="say")ta*=af>=at?1.07:.95;if(G.sisi=="tgh")ta*=at>=af?1.07:.95;const os=cur()[2];if(os=="atk"&&(G.tak=="cnt"||G.tak=="def"))ta*=1.12;if(os=="def"&&(G.tak=="atk"||G.tak=="prs"))ta*=1.12;
+ let seg=0;
+ draw();
+ const iv=setInterval(()=>{
+  seg++;G.menit=seg*5;let ev="";G.ball=r(25,75);
+  const pO=cl(.075*(ours*ta)/lr,0,.35),pL=cl(.075*lr/(ours*td),0,.35);
+  if(Math.random()<pO){G.skor[0]++;ev="us";G.ball=94;const s=G.pl[r(7,10)];G.log.push(`${G.menit}' GOL! ${s.n} mencetak gol.`)}
+  else if(Math.random()<.15){G.ball=r(78,90);G.log.push(`${G.menit}' Peluang, tapi tembakan melebar.`)}
+  if(Math.random()<pL){G.skor[1]++;ev="them";G.ball=6;G.log.push(`${G.menit}' Gol untuk ${lw}.`)}
+  updateMatch(ev);
+  if(seg>=18){clearInterval(iv);selesaiLaga(lw)}
+ },650);
+}
+function updateMatch(ev){
+ const $=i=>document.getElementById(i);
+ if(!$("ball"))return draw();
+ $("pmin").textContent="Menit "+G.menit;
+ $("psc").textContent=G.skor[0]+" - "+G.skor[1];
+ $("ball").style.left=G.ball+"%";
+ const lg=$("log");lg.innerHTML=G.log.map(l=>`<p>${l}</p>`).join("");lg.scrollTop=lg.scrollHeight;
+ if(ev){const b=$("banner");b.textContent=ev=="us"?"GOOOL!":"Kebobolan";b.className=ev;void b.offsetWidth;b.className=ev+" show";
+  const p=$("pitch");p.classList.remove("shake");void p.offsetWidth;if(ev=="them")p.classList.add("shake");
+  const s=$("psc");s.classList.remove("pop");void s.offsetWidth;s.classList.add("pop")}
+}
+const bin=p=>{let k=0;for(let i=0;i<18;i++)if(Math.random()<p)k++;return k};
+const sh=a=>[...a].sort(()=>Math.random()-.5),STY=['bal','atk','def'],rank=()=>Math.max(1,Math.round(1+(1900-G.fifa)/5.5));
+const ASEAN=[['Thailand',56],['Vietnam',54],['Malaysia',52],['Singapura',48],['Filipina',46],['Kamboja',42],['Myanmar',40],['Laos',38]];
+const ASIA=[['Jepang',78],['Korea Selatan',76],['Iran',75],['Australia',72],['Arab Saudi',70],['Qatar',67],['Uzbekistan',66],['Irak',65],['Yordania',63],['UEA',61],['Oman',60],['Bahrain',59],['China',58],['Palestina',54]];
+const WORLD=[['Brasil',90],['Prancis',91],['Argentina',92],['Spanyol',90],['Inggris',89],['Jerman',87],['Belanda',86],['Portugal',88],['Italia',85],['Kroasia',83],['Kolombia',82],['Maroko',81],['Denmark',80],['Meksiko',78],['Senegal',78],['Amerika Serikat',77]];
+const SERP=[['Mesir',74],['Nigeria',73],['Chile',75],['Peru',72],['Selandia Baru',64],['Kosta Rika',66],['Ghana',70],['Venezuela',68],['Tunisia',69],['Kamerun',68]];
+const ST=[{id:'aff',nama:'Piala AFF',pool:ASEAN,grp:4,ko:['Semi Final','Final'],kb:[2,5],adv:2},{id:'kwc',nama:'Kualifikasi Piala Dunia',pool:ASIA,grp:5,dbl:1,ko:[],kb:[],adv:2},{id:'wc',nama:'Piala Dunia',pool:WORLD,grp:4,ko:['16 Besar','Perempat Final','Semi Final','Final'],kb:[-3,-1,1,3],adv:2},{id:'asia',nama:'Piala Asia',pool:ASIA,grp:4,ko:['Perempat Final','Semi Final','Final'],kb:[0,3,6],adv:2},{id:'ser',nama:'FIFA Series',pool:SERP,grp:4,ko:['Final'],kb:[2],adv:2},{id:'tur',nama:'Tur Invitasi',pool:ASEAN.concat(ASIA.slice(8)),grp:3,ko:[],kb:[],adv:1,fr:1},{id:'frd',nama:'Laga Persahabatan',pool:ASIA.concat(SERP),grp:2,ko:[],kb:[],adv:1,fr:1}];
+function rr(n){const a=[...Array(n).keys()];if(n%2)a.push(-1);const m=a.length,R=[];for(let i=0;i<m-1;i++){const p=[];for(let j=0;j<m/2;j++){const x=a[j],y=a[m-1-j];if(x>=0&&y>=0)p.push([x,y])}R.push(p);a.splice(1,0,a.pop())}return R}
+function mkT(i){
+ const c=ST[i],tm=[['Indonesia',0,'bal',0]];
+ sh(c.pool).slice(0,c.grp-1).forEach(x=>tm.push([x[0],x[1]+G.sk*2,STY[r(0,2)],tm.length]));
+ const R=rr(c.grp);
+ G.T={i,c,tm,rounds:c.dbl?R.concat(R.map(m=>m.map(([x,y])=>[y,x]))):R,md:0,tab:tm.map(()=>({w:0,d:0,l:0,gf:0,ga:0})),ph:'grup',ko:0,opp:null,used:tm.map(x=>x[0])};
+ gap(G.T);G.sesi=0;G.fin=false;G.log=[];G.menit=0;
+ G.info=c.nama+' dimulai. Latihan tanpa batas selagi stamina cukup.';
+}
+function cur(){if(G.fin)return['Laga berikutnya',0,'bal',-1];const T=G.T;if(T.ph=='ko')return T.opp;const m=T.rounds[T.md].find(p=>p.includes(0));return T.tm[m[0]==0?m[1]:m[0]]}
+function addRes(T,i,f,a){const s=T.tab[i];s.gf+=f;s.ga+=a;f>a?s.w++:f==a?s.d++:s.l++}
+function simR(T,md,m){T.rounds[md].forEach(p=>{if(p===m)return;const x=T.tm[p[0]][1],y=T.tm[p[1]][1],g=bin(cl(.075*x/y,0,.35)),h=bin(cl(.075*y/x,0,.35));addRes(T,p[0],g,h);addRes(T,p[1],h,g)})}
+function gap(T){while(T.md<T.rounds.length&&!T.rounds[T.md].some(p=>p.includes(0))){simR(T,T.md,null);T.md++}}
+function standing(T){return T.tm.map((_,i)=>i).sort((a,b)=>{const x=T.tab[a],y=T.tab[b];return(y.w*3+y.d)-(x.w*3+x.d)||(y.gf-y.ga)-(x.gf-x.ga)||y.gf-x.gf})}
+function mkKo(){const T=G.T,c=T.c,x=sh(c.pool.filter(z=>!T.used.includes(z[0])))[0];T.used.push(x[0]);T.opp=[x[0],x[1]+c.kb[T.ko]+G.sk*2,STY[r(0,2)],-1]}
+function finish(m){G.fin=true;G.T.res=m;G.past.push({n:G.T.c.nama,t:m});G.info=m;G.pu=cl(G.pu+(G.T.c.fr?(/Juara/.test(m)?8:0):/Juara/.test(m)?25:/Lolos ke Piala Dunia/.test(m)?15:G.T.ph=='ko'?-4:-18),0,100);if(G.pu<=0)G.selesai='fired';if(/Juara/.test(m))G.cn[G.T.c.id]=(G.cn[G.T.c.id]||0)+1;if(!G.T.c.fr)setPc(/Juara/.test(m)?'trofi':/Lolos ke Piala Dunia/.test(m)?'qual':'out');if(!G.T.c.fr||/Juara/.test(m))post(/Juara/.test(m)?'trofi':/Lolos ke Piala Dunia/.test(m)?'qual':'out',m,{t:G.T.c.nama,o:'',s:''});if(/Juara/.test(m))setTimeout(()=>champ('JUARA '+G.T.c.nama.toUpperCase()+'!'),250)}
+function endGroup(){
+ const T=G.T,c=T.c,pos=standing(T).indexOf(0)+1;
+ if(c.fr){G.dana+=10;if(c.id=='tur'&&pos==1){G.tr.tur='gold';return finish('Juara Tur Invitasi!')}return finish(c.nama+' selesai di posisi '+pos+'.')}
+ if(pos>c.adv)return finish('Gagal lolos dari grup (posisi '+pos+').');
+ if(!c.ko.length){G.tr.kwc='gold';G.q=1;return finish('Lolos ke Piala Dunia! Posisi '+pos+' di grup.')}
+ T.ph='ko';T.ko=0;mkKo();G.info+='Lolos grup di posisi '+pos+'. Lanjut ke '+c.ko[0]+'.';
+}
+function afterMatch(a,b){
+ const T=G.T,c=T.c,o=cur(),ko=T.ph=='ko';G.info='';post(a>b?'win':a==b?'draw':'lose','Hasil: Indonesia '+a+'-'+b+' '+o[0]+' ('+c.nama+')',{o:o[0],s:a+'-'+b,t:c.nama});G.pra=0;viral();setPc(a>b?'win':a==b?'draw':'lose');if(Math.random()<(.25+(50-G.med)/300))rumorPost();if(G.med>=70&&a>b&&Math.random()<.4)post('pers',OUT[r(0,3)]+': Media puji kerja Coach '+G.mg.nama+' usai kemenangan atas '+o[0],{o:'',s:'',t:''});if(G.med<30&&a<b&&Math.random()<.5)post('persn',OUT[r(0,3)]+': Media sorot kinerja Coach '+G.mg.nama+' setelah kalah dari '+o[0],{o:'',s:'',t:''});
+ const op=600+o[1]*14,we=1/(1+Math.pow(10,-(G.fifa-op)/600)),W=a>b?1:a==b?.5:0;
+ G.fifa+=Math.round((W-we)*(c.fr?10:ko?40:c.id=='wc'?50:25));G.rk.push(rank());{const pr=G.rk[G.rk.length-2],nw=rank(),ms=[100,75,50,25,10].find(t=>pr>t&&nw<=t);if(ms)post('rank','Sejarah! Indonesia tembus '+ms+' besar dunia FIFA (#'+nw+')',{R:nw});else if(pr-nw>=2)post('rank',news('rank',{R:nw,d:pr-nw}),{R:nw});else if(nw-pr>=3)post('rankdn',news('rankdn',{R:nw,d:nw-pr}),{R:nw})}G.pu=cl(G.pu+(c.fr?(a>b?1:0):(a>b?3:a==b?0:-4)),0,100);if(G.pu<=0)G.selesai='fired';
+ if(!ko){
+  const m=T.rounds[T.md].find(p=>p.includes(0));simR(T,T.md,m);
+  addRes(T,0,a,b);addRes(T,o[3],b,a);T.md++;gap(T);
+  if(T.md>=T.rounds.length)endGroup();
+ }else{
+  let win=a>b;if(a==b){win=Math.random()<cl(.5+(rating()-o[1])/150,.25,.8);G.info='Adu penalti: '+(win?'menang! ':'kalah. ')}
+  if(win){T.ko++;if(T.ko>=c.ko.length){G.tr[c.id]='gold';finish('Juara '+c.nama+'!')}else{mkKo();G.info+='Lolos ke '+c.ko[T.ko]+'.'}}
+  else{const L=T.ko==c.ko.length-1?'silver':T.ko==c.ko.length-2?'bronze':null;if(L&&G.tr[c.id]!='gold'&&!(L=='bronze'&&G.tr[c.id]=='silver'))G.tr[c.id]=L;finish('Tersingkir di '+c.ko[T.ko]+'.')}
+ }
+}
+const nextName=()=>{let i=G.T.i+1;if(i==2&&!G.q)i=3;if(i>=ST.length)i=0;return G.kon<=1?'Lihat tawaran kontrak':'Lanjut: '+ST[i].nama};
+function nextStage(){let i=G.T.i+1;if(i==2&&!G.q)i=3;if(i>=ST.length){i=0;G.sk++;G.q=0}G.pl.forEach(p=>p.lelah=cl(p.lelah-30,0,100));mkT(i)}
+function lanjut(){G.kon--;if(G.kon<=0){G.offer=1;draw();return}nextStage();draw()}
+function perpanjang(n,d){G.kon=n;G.dana+=d;G.offer=0;G.pu=Math.min(100,G.pu+5);nextStage();G.info='Kontrak diperpanjang '+n+' turnamen. '+G.info;draw()}
+function akhir(){G.selesai='exp';G.offer=0;draw()}
+function ofer(){
+ const o=[[2,30,'Perpanjang 2 turnamen',0],[4,50,'Perpanjang 4 turnamen (1 siklus)',30],[8,75,'Perpanjang 8 turnamen (2 siklus)',80]];
+ return `<div class='panel end'><h2>Kontrak berakhir</h2><p>Kepuasan PSSI ${G.pu}/100. ${G.pu<30?'PSSI memutuskan tidak memperpanjang kontrakmu.':'PSSI menawarkan perpanjangan. Makin puas, makin panjang tawarannya.'}</p>${o.map(([n,m,l,d])=>`<button class='go' style='margin:6px 0' ${G.pu<m?'disabled':''} onclick='perpanjang(${n},${d})'>${l}${d?' (+'+d+' dana)':''}${G.pu<m?' · butuh kepuasan '+m:''}</button>`).join('')}${G.pu<30?`<button class='go' onclick='akhir()'>Lihat akhir karier</button>`:''}</div>`}
+function pssi(){
+ const o=cur(),av=G.pl.reduce((s,p)=>s+100-p.lelah,0)/G.pl.length;let t;
+ if(G.pu<30)t='Kepuasan PSSI rendah. Beberapa hasil buruk lagi dan kamu bisa dipecat.';
+ else if(G.fin)t='Turnamen selesai. Beri skuad waktu pulih, lalu bidik turnamen berikutnya.';
+ else if(av<35)t='Stamina skuad tipis. Ambil hari libur atau sesi Pemulihan sebelum laga.';
+ else if(G.ritme<40)t='Ritme latihan anjlok. Jangan terlalu sering libur, rating tim ikut turun.';
+ else if(G.sesi>=12&&av<60)t='Sesi latihan sudah banyak, tapi stamina menipis. Selingi dengan Pemulihan.';
+ else t=o[2]=='atk'?o[0]+' suka menyerang. Coba Serangan Balik atau Bertahan.':o[2]=='def'?o[0]+' bertahan rapat. Tekan tinggi dan serang lewat sayap.':o[0]+' bermain seimbang. Jaga stamina dan familiaritas taktik.';
+ const n=t!=G.lt;G.lt=t;
+ return `<div class='adv${n?' in':''}'><div class='av'>PSSI</div><div><b>Saran PSSI</b><p>${t}</p><small>Kepuasan PSSI ${G.pu}/100 · kontrak ${G.kon} turnamen lagi</small>${bar(G.pu,G.pu<35?'low':G.pu<60?'fat':'')}</div></div>`}
+function tpanel(){
+ const T=G.T,c=T.c;
+ const chips=ST.map((s,i)=>`<span class='stg ${i==T.i?'on':i<T.i&&!(i==2&&!G.q)?'dn':''}'>${s.nama}</span>`).join('');
+ let b;
+ if(T.ph=='grup')b=`<table class='tb'><tr><th>#</th><th>Tim</th><th>Main</th><th>GD</th><th>Poin</th></tr>${standing(T).map((i,k)=>{const s=T.tab[i];return `<tr class='${i==0?'me':''}${k<c.adv?' up':''}'><td>${k+1}</td><td>${T.tm[i][0]}</td><td>${s.w+s.d+s.l}</td><td>${s.gf-s.ga}</td><td>${s.w*3+s.d}</td></tr>`}).join('')}</table><p class='msg'>${G.fin?'':'Matchday '+Math.min(T.md+1,T.rounds.length)+' dari '+T.rounds.length+'. '}${c.fr?'Laga uji coba: hasil memengaruhi poin FIFA dan dana.':c.ko.length?'Dua teratas lolos ke fase gugur.':'Dua teratas lolos ke Piala Dunia.'}</p>`;
+ else b=c.ko.map((n,i)=>`<span class='stg ${i==T.ko&&!G.fin?'on':i<T.ko?'dn':''}'>${n}</span>`).join('')+`<p class='msg'>${G.fin?'':'Babak ini lawan '+T.opp[0]+' (kekuatan '+T.opp[1]+'). Kalah berarti tersingkir.'}</p>`;
+ return `<div class='panel'><h2>${c.nama}</h2><p class='msg'>Harapan PSSI: ${({aff:'juara',kwc:'lolos Piala Dunia',wc:'lolos grup',asia:'semifinal',ser:'juara FIFA Series',tur:'juara tur',frd:'tidak kalah'})[c.id]}.</p><div>${chips}</div>${b}${G.fin?`<p class='msg'><b>${T.res}</b></p>`:''}</div>`}
+function kabinet(){
+ const TR=[['aff','Piala AFF'],['kwc','Tiket Piala Dunia'],['wc','Piala Dunia'],['asia','Piala Asia'],['ser','FIFA Series'],['tur','Tur Invitasi']],col={gold:'#f5c518',silver:'#c0c6cc',bronze:'#cd7f32'},lb={gold:'Juara',silver:'Runner-up',bronze:'Semifinal'};
+ const cups=TR.map(([id,n])=>{const v=G.tr[id],f=v?col[v]:'currentColor',o=v?1:.22;return `<div class='cup ${v?'got':''}'><svg viewBox='0 0 40 48'><path d='M10 4h20v12c0 8-4 12-10 12S10 24 10 16z' fill='${f}' opacity='${o}'/><path d='M10 8H3c0 8 3 12 8 13M30 8h7c0 8-3 12-8 13' fill='none' stroke='${f}' stroke-width='2' opacity='${o}'/><rect x='18' y='28' width='4' height='8' fill='${f}' opacity='${o}'/><rect x='11' y='36' width='18' height='6' rx='2' fill='${f}' opacity='${o}'/></svg><small>${n}</small><small>${v?(id=='kwc'?'Lolos':lb[v])+(G.cn[id]>1?' ×'+G.cn[id]:''):'Belum'}</small></div>`}).join('');
+ const rk=G.rk,mn=Math.min(...rk),mx=Math.max(...rk,mn+1),pts=rk.map((v,i)=>(i/Math.max(rk.length-1,1)*280+10)+','+(8+(v-mn)/(mx-mn)*36)).join(' ');
+ return `<div class='panel'><h2>Kabinet trofi</h2><div class='shelf'>${cups}</div><h2 style='margin-top:12px'>Peringkat FIFA #${rank()} (${G.fifa} poin)</h2><svg viewBox='0 0 300 52' style='width:100%;color:var(--red)'><polyline points='${pts}' fill='none' stroke='currentColor' stroke-width='2.5'/></svg><p class='msg'>${G.past.map(p=>p.n+': '+p.t).join(' | ')||'Belum ada turnamen selesai.'}</p></div>`}
+const P=['Gila,','Mantap!','Wah,','Ya ampun,','Hmm,','Bro,','Gaes,','Jujur,','Sumpah,','Kak,','Bang,','Btw,','Alhamdulillah,','Astaga,'];
+const TL=['#TimnasIndonesia','#GarudaMendunia','Lanjutkan!','Semangat terus!','Merah putih di dadaku','Satu hati untuk Garuda','Ayo bisa!','Ditunggu laga berikutnya','Salut!','Sampai akhir!','Indonesia bisa','Terus berjuang','Jangan kendor','Garuda di dadaku'];
+const EM={pos:['🔥','🎉','❤️','🇮🇩','👏','🦅','💪','🥳'],neg:['😭','🥹','😤','🙏','💔','😮‍💨','😔','💪']};
+const U1=['bola','garuda','timnas','suporter','fans','ultras','pecinta','kopi','jersey','merah'],U2=['_id','_fc','_mania','_ofc','_88','_real'];
+const CORE={
+win:['menang {s} lawan {o}, mainnya berkelas','{o} dibuat tak berkutik','lini tengah hari ini luar biasa','finishing makin tajam','bangga banget lihat timnas','taktik pelatih jitu','pertahanan rapat, serangan balik mematikan','tiga poin yang manis','mental juara mulai terlihat','stadion bergemuruh','ini baru timnas yang kita tunggu','kerja keras latihan terbayar'],
+draw:['seri {s} lawan {o}, lumayan lah','harusnya bisa menang sebenarnya','satu poin tetap berharga','peluang banyak tapi kurang tajam','pertahanan masih bolong di akhir','lawan {o} memang alot','semoga laga berikutnya lebih baik','evaluasi penyelesaian akhir','stamina pemain kelihatan turun','wasit kurang tegas menurutku','tetap semangat timnas','seri tapi permainan membaik'],
+lose:['kalah {s} dari {o}, sedih','evaluasi total harus dilakukan','lini belakang kurang fokus','rotasi pemain perlu dipikirkan','stamina pemain habis di babak kedua','taktik hari ini kurang cocok','jangan menyerah, masih ada laga lain','kecewa tapi tetap dukung','mungkin latihan kurang variasi','ayo bangkit, jangan larut','{o} memang lebih siap','belajar dari kekalahan ini'],
+trofi:['juara {t}! luar biasa','akhirnya trofi datang','sejarah baru sepak bola Indonesia','merinding lihat selebrasinya','kabinet trofi nambah isi','semua kerja keras terbayar','pesta di seluruh negeri','rasanya tidak percaya','generasi emas timnas','terima kasih para pemain dan staf','kapan lagi juara begini','bendera merah putih berkibar'],
+out:['tersingkir di {t}, sakit rasanya','sudah berjuang maksimal','kurang beruntung hari ini','evaluasi dan bangkit lagi','tetap bangga dengan perjuangan','turnamen depan harus lebih baik','mental perlu ditempa lagi','terima kasih sudah berjuang','pelajaran mahal buat timnas','jangan salahkan satu orang','masih panjang jalannya','kita tunggu kebangkitan'],
+qual:['lolos! {t} berhasil dilewati','tiket sudah di tangan','mimpi yang jadi nyata','siap tampil di panggung dunia','grup berat tapi lolos','bangga timnas lolos','persiapkan skuad sebaik mungkin','luar biasa perjuangannya','rumput stadion basah air mata','jangan cepat puas ya','target berikutnya fase gugur','hebat, hebat, hebat'],
+rank:['naik ke #{R}, mantap','ranking naik terus, bangga','tembus ranking segitu dulu cuma mimpi','kerja keras pelatih dan pemain terbayar','pantas naik, mainnya enak ditonton','#{R} dunia, lanjut naik!','ranking cuma angka tapi senang juga','tren positif harus dijaga','naik peringkat, naik juga mental','lawan besar sudah menanti','FIFA mulai melihat kita','Garuda terbang makin tinggi'],
+rankdn:['turun ke #{R}, wajar kalau begini','jangan panik, ranking bisa naik lagi','evaluasi hasil lawan tim kecil','kurang beruntung di laga kemarin','ranking turun, semangat tetap naik','lini belakang harus dibenahi','saatnya rotasi dan latihan ekstra','ranking bukan segalanya, tapi sayang','bangkit di laga berikutnya','tetap dukung timnas','semoga cepat balik naik','perbaiki sedikit demi sedikit'],
+pers:['jawaban coach tadi dewasa banget','suka gaya coach ngomong, jujur dan tenang','ini baru pelatih yang paham situasi','respect, nggak cari kambing hitam','pers conf-nya adem banget','keren, tegas tapi sopan'],persn:['omongan coach tadi bikin panas','kok jawabnya gitu sih, nggak elok','nyalahin orang lain terus, capek','terlalu arogan menurutku','jawaban nggak nyambung sama pertanyaan','kata-katanya kurang dijaga, jangan asal ngomong di depan media'],hoax:['serius nih? sumbernya mana?','hoax kali, akunnya mencurigakan','kalo bener parah sih','jangan langsung percaya gaes','udah gue duga ada yang nggak beres','tunggu klarifikasi resmi dulu'],tunjuk:['coach baru nih, kita liat kinerjanya dulu','semoga bisa bawa perubahan','pengalamannya lumayan, semoga cocok','jangan cuma janji doang ya','welcome coach, gas!','umur segitu masih energik nggak nih?','track record-nya oke, kita dukung','belum yakin sih, buktiin dulu'],
+nat:['{n} resmi WNI, makin dalam skuad','naturalisasi yang tepat sasaran','semoga cepat nyetel dengan tim','kualitas skuad naik drastis','selamat datang di timnas','kombinasi lokal dan naturalisasi mantap','semoga adaptasinya lancar','bikin persaingan posisi makin ketat','semoga membawa hoki','tinggal lihat performa di lapangan','pemain lokal jangan kalah semangat','antusias banget nunggu debutnya']};
+const nCombos=()=>Object.values(CORE).reduce((s,a)=>s+a.length,0)*P.length*TL.length*8+(FFAN.length+FHAT.length+FSAD.length+FGLO.length)*FH.length*3;
+function rxn(kind,x){const c=rxn0(kind,x);if(!c.f)c.t=slang(c.t);c.rp=mkRep(c);return c}
+function rxn0(kind,x){if(Math.random()<(x.fo?.75:.32))return fro(kind);
+ const m=kind=='lose'||kind=='out'||kind=='rankdn'||kind=='persn'?'neg':'pos',c=(a=>a[r(0,a.length-1)])(CORE[kind]).replace(/\{R\}/g,x.R||'').replace(/\{o\}/g,x.o||'lawan').replace(/\{s\}/g,x.s).replace(/\{t\}/g,x.t).replace(/\{n\}/g,x.n||'pemain baru');
+ return{u:'@'+U1[r(0,9)]+U2[r(0,5)]+r(1,99),t:P[r(0,13)]+' '+c+' '+TL[r(0,13)]+' '+EM[m][r(0,7)]}}
+function post(kind,head,x){
+ const pos=['win','trofi','qual','nat','rank','pers'].includes(kind),neg=['lose','out','rankdn','persn'].includes(kind),L=r(900,3200)*(kind=='trofi'?9:kind=='qual'?4:1);
+ const rx=(pos?[['🔥',.4],['❤️',.3],['👏',.2],['🇮🇩',.1]]:neg?[['😭',.4],['😡',.2],['💔',.25],['🙏',.15]]:[['😐',.3],['🙏',.3],['💪',.3],['🇮🇩',.1]]).map(([e,f])=>[e,Math.round(L*f*(.8+Math.random()*.4))]);
+ G.feed.unshift({head,ctx:{...x,kind},rm:x.rm,id:r(1,1e6),ct:r(8,60),nw:x.fo||['rank','rankdn','nat','pers','persn'].includes(kind),src:x.fs||(['rank','rankdn','nat','pers','persn'].includes(kind)?OUT[r(0,3)]:'@timnas_official'),when:'Laga ke-'+G.hist.length,rx,cm:[0,1,2,3].map(()=>rxn(kind,x))});
+ G.feed=G.feed.slice(0,10);G.op=null;if(!x.fo)fpost(kind,x);
+}
+function more(i){const p=G.feed[i];if(p.cm.length>=24)return;for(let k=0;k<4;k++)p.cm.push(rxn(p.ctx.kind,p.ctx));draw()}
+function sosmed(){
+ const f=G.feed.map((p,i)=>`<div class='post${i==0?' new':''}'><div class='ph'><span class='av2'>🦅</span><div><b>${p.src||'@timnas_official'}</b>${p.nw&&!p.rm?` <span class='tag'>BERITA</span>`:p.rm?` <span class='tag' style='background:var(--warn);color:#1d1a17'>RUMOR</span>`:''}<small> ${p.when}</small></div></div><p>${p.head}</p>${p.rm||/^pers|^tunjuk/.test(p.ctx.kind)?'':pic(p)}${rmHTML(p,i)}${p.nw?`<small class='msg'>Dibaca di ${p.ct} negara · ${p.rx.reduce((s,x)=>s+x[1],0).toLocaleString('id-ID')} reaksi</small>`:''}<div class='rxs'>${p.rx.map(([e,n])=>`<span>${e} ${n.toLocaleString('id-ID')}</span>`).join('')}</div>${p.cm.map((c,ci)=>`<div class='cm${c.h?' ht':''}'><span class='fl'>${c.f||'🇮🇩'}</span><b>${c.u}</b>${c.h?` <span class='tg2'>HATER</span>`:''} ${c.t}<br><button class='bl' onclick='bal(${i},${ci})'>Balas</button></div>${(c.rp||[]).map(q=>`<div class='cm rp${q.o?' of':''}'><span class='fl'>${q.f}</span><b>${q.u}</b>${q.o?` <span class='tag'>OFFICIAL</span>`:''} ${q.t}</div>`).join('')}${G.op&&G.op[0]==i&&G.op[1]==ci?`<div class='qr'><input id='rt' maxlength='120' placeholder='Ketik balasanmu, gaya santai juga boleh' onkeydown="if(event.key==='Enter')kirim(${i},${ci})"><button onclick='kirim(${i},${ci})'>Kirim</button></div><div class='qr'>${OFR.map((o,k)=>`<button onclick='jwb(${i},${ci},${k})'>${o}</button>`).join('')}</div>`:''}`).join('')}${p.cm.length<24?`<button onclick='more(${i})'>Muat reaksi lain</button>`:''}</div>`).join('')||`<p class='msg'>Belum ada unggahan. Mainkan laga pertama.</p>`;
+ return `<div class='panel'><h2>Media sosial</h2><p class='msg'>Variasi reaksi netizen: ${nCombos().toLocaleString('id-ID')} kombinasi unik.</p><div class='feed'>${f}</div></div>`}
+const FL=['🇬🇧','🇦🇺','🇧🇷','🇸🇦','🇺🇸','🇮🇳','🇳🇬','🇩🇪'],FH=['fcfan','goalhunter','futbol','kickoff','pitchside','matchday','terrace','ultra'];
+const FFAN=[[0,'Respect to Indonesia, great performance'],[0,'Indonesia keeps improving, Asia take note'],[0,'Love the passion of the Garuda fans'],[0,'Proper football, well played'],[0,'Indonesia are a real threat now'],[0,'Congrats Indonesia, deserved'],[0,'Their fans are unreal'],[0,'This team is clearly on the rise'],[0,'Great tactics from Indonesia'],['🇲🇾','Tahniah Indonesia, mantap dari Malaysia'],['🇳🇱','Gefeliciteerd Indonesië, mooi gespeeld'],['🇯🇵','Sugoi, Indonesia is strong now']];
+const FHAT=[[0,'Overrated. Beat a weak side and everyone panics'],[0,'Lucky win, nothing special'],[0,'Ranking is inflated, play stronger teams first'],[0,'All hype, no substance'],[0,'Defence is a joke, they will get exposed'],[0,'One good result does not make a contender'],[0,'Referee helped them today'],[0,'Fans are loud but the football is average'],[0,'Hype train again, see you at the knockouts'],[0,'Depth is thin, let us see a full tournament'],[0,'Not impressed, honestly'],['🇲🇾','Biasa je, jangan terlalu hebat']];
+const FSAD=[[0,'Tough luck Indonesia, bounce back soon'],[0,'Do not give up Garuda, football is cruel'],[0,'Respect for the fight, Indonesia'],[0,'Chin up Indonesia, the future looks bright'],[0,'Unlucky today, you will be back stronger'],['🇳🇱','Jammer Indonesië, volgende keer beter'],['🇲🇾','Jangan putus asa Garuda, bangkit semula'],[0,'Every top team has bad days, keep going']];
+const FGLO=[[0,'Told you they were overrated'],[0,'Back to earth, Indonesia'],[0,'Hype over, as expected'],[0,'Good lesson for the hype train'],[0,'Not ready for the big stage yet'],[0,'Football is not won on social media'],[0,'Too much talk, too little football'],['🇲🇾','Padan muka, terlalu riuh sangat']];
+function fro(kind){
+ const neg=['lose','out','rankdn','persn'].includes(kind),h=Math.random()<.45,pl=neg?(h?FGLO:FSAD):(h?FHAT:FFAN),[fl,tx]=pl[r(0,pl.length-1)];
+ return{u:'@'+FH[r(0,7)]+r(1,999),t:tx+' '+(h?['😏','🙄','🤷'][r(0,2)]:['👏','🔥','🙌'][r(0,2)]),f:fl||FL[r(0,7)],h}}
+function goto(t){const h=[...document.querySelectorAll('h2')].find(x=>x.textContent.includes(t));if(h)h.scrollIntoView({behavior:'smooth',block:'start'})}
+const OFR=['Makasih dukungannya semua! 🙏','Kritiknya kita terima, bakal dievaluasi kok.','Fokus ke laga berikutnya dulu ya, doain!'];
+const RDEF=['Silakan nonton dulu laganya, baru komentar','Santai bos, lihat saja hasil akhirnya','Hater lagi hater lagi 😅','Kritik boleh, tapi yang konstruktif ya','Lihat data dulu sebelum ngomong','Garuda tidak butuh validasi dari situ','Tunggu turnamen berikutnya, kita buktikan','Sudah ya, fokus dukung timnas'];
+const RAG=['Setuju banget!','Bener tuh, sependapat','Ini baru komentar yang masuk akal','Mantap, sama pendapatnya','Wah iya juga ya','Nah itu dia maksudku','Dukung penuh!','Tos dulu 🙌'];
+const RDB=['Hmm, kurang setuju sih, masih ada yang perlu dibenahi','Jangan terlalu cepat puas dulu ya','Bisa jadi, tapi lihat laga berikutnya','Menurutku sebaliknya, tapi tetap hormat','Tergantung lawannya juga sih','Coba lihat statistik lengkapnya'];
+const RTH=['Terima kasih dukungannya, bro!','Thanks mate, appreciate it','Salam dari Indonesia!','Makasih supportnya!'];
+const RFO=['Calm down, it is just football','Credit where it is due','Let the results speak','Typical hot take'];
+function mkRep(c){
+ const n=Math.random()<.55?r(1,2):0,o=[];
+ for(let i=0;i<n;i++){
+  if(c.h&&Math.random()<.2){o.push({u:'@'+FH[r(0,7)]+r(1,999),t:RFO[r(0,3)],f:FL[r(0,7)]});continue}
+  const pl=c.a?RSUPR:c.s?RANGR:c.h?RDEF:c.f?RTH:(Math.random()<.6?RAG:RDB);
+  o.push({u:'@'+U1[r(0,9)]+U2[r(0,5)]+r(1,99),t:slang(pl[r(0,pl.length-1)]),f:'🇮🇩'})}
+ return o}
+function keep(f){const e=document.querySelector('.feed'),s=e?e.scrollTop:0;f();const n=document.querySelector('.feed');if(n)n.scrollTop=s}
+function bal(i,c){G.op=G.op&&G.op[0]==i&&G.op[1]==c?null:[i,c];keep(draw);const e=document.getElementById('rt');if(e)e.focus()}
+function jwb(i,ci,k){
+ const c=G.feed[i].cm[ci];(c.rp=c.rp||[]).push({u:'@timnas_official',t:OFR[k],f:'🇮🇩',o:1});
+ if(Math.random()<.8)c.rp.push({u:'@'+U1[r(0,9)]+U2[r(0,5)]+r(1,99),t:RAG[r(0,7)],f:'🇮🇩'});
+ if(c.h&&!c.done){c.done=1;G.pu=Math.min(100,G.pu+1)}
+ G.op=null;keep(draw)}
+function fireworks(){
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const cv=document.createElement('canvas');cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50';document.body.appendChild(cv);
+ const W=cv.width=innerWidth,H=cv.height=innerHeight,x=cv.getContext('2d'),P=[],t0=Date.now();let last=-999;
+ const burst=()=>{const cx=r(W*.15,W*.85),cy=r(H*.12,H*.5),h=r(0,360);for(let i=0;i<70;i++){const a=Math.PI*2*i/70,s=1.5+Math.random()*3.5;P.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:1,h})}};
+ (function f(){
+  const T=Date.now()-t0;x.globalCompositeOperation='destination-out';x.fillStyle='rgba(0,0,0,.18)';x.fillRect(0,0,W,H);x.globalCompositeOperation='lighter';
+  if(T<4500&&T-last>420){burst();last=T}
+  P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.04;p.vx*=.99;p.l-=.011;x.fillStyle='hsla('+p.h+',100%,60%,'+Math.max(p.l,0)+')';x.beginPath();x.arc(p.x,p.y,2,0,7);x.fill()});
+  for(let i=P.length-1;i>=0;i--)if(P[i].l<=0)P.splice(i,1);
+  if(T<6500)requestAnimationFrame(f);else cv.remove()})();
+}
+function champ(t){fireworks();const d=document.createElement('div');d.className='champ';d.textContent='🏆 '+t;document.body.appendChild(d);setTimeout(()=>d.remove(),3200)}
+function pic(p){
+ const x=p.ctx,k=x.kind,C=({trofi:['#f5c518','#c8102e'],qual:['#2f7d4f','#0b3d25'],win:['#2f7d4f','#145a33'],draw:['#6f675f','#3a352f'],lose:['#5a2a35','#2a1218'],out:['#4a2a35','#1d1015'],nat:['#c8102e','#7a0a1c'],rank:['#1f6feb','#0b2d6b'],rankdn:['#7a4a1e','#2c1a0a']})[k]||['#c8102e','#7a0a1c'];
+ const ic=({trofi:'🏆',qual:'🎟️',win:'⚽',draw:'🤝',lose:'🥅',out:'💔',nat:'🛂',rank:'📈',rankdn:'📉'})[k]||'⚽';
+ const big=x.s?x.s:x.R?'#'+x.R:x.n?x.n:(x.t||''),sub=k=='trofi'?'JUARA':k=='qual'?'LOLOS PIALA DUNIA':k=='nat'?'RESMI WNI':k=='out'?'TERSINGKIR':x.o?'vs '+x.o:'PERINGKAT FIFA';
+ const sp=(k=='trofi'||k=='qual')?[[90,30],[210,20],[330,40],[450,25],[540,60],[60,110],[500,120]].map(([a,b],i)=>`<circle cx='${a}' cy='${b}' r='3' fill='#fff'><animate attributeName='opacity' values='0;1;0' dur='1.6s' begin='${i*.25}s' repeatCount='indefinite'/></circle>`).join(''):'';
+ const dots=Array.from({length:40},(_,i)=>`<circle cx='${i*15+7}' cy='${156+(i%3)*4}' r='6' fill='#000' opacity='.35'/>`).join('');
+ return `<svg class='pic' viewBox='0 0 600 170' role='img' aria-label='Foto ilustrasi'><defs><linearGradient id='g${p.id}' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${C[0]}'/><stop offset='1' stop-color='${C[1]}'/></linearGradient></defs><rect width='600' height='170' fill='url(#g${p.id})'/><polygon points='80,0 140,0 260,170 40,170' fill='#fff' opacity='.08'/><polygon points='460,0 520,0 600,170 380,170' fill='#fff' opacity='.08'/>${sp}${dots}<text x='90' y='108' font-size='72' text-anchor='middle'>${ic}</text><text x='180' y='88' font-size='${String(big).length>7?30:46}' font-family='Georgia,serif' font-weight='700' fill='#fff'>${big}</text><text x='182' y='116' font-size='16' fill='#fff' opacity='.9'>${sub}</text><text x='590' y='14' font-size='9' fill='#fff' opacity='.7' text-anchor='end'>Foto ilustrasi</text></svg>`}
+const SL=[[/\btidak\b/gi,'nggak'],[/\bsudah\b/gi,'udah'],[/\bbelum\b/gi,'belom'],[/\bsangat\b/gi,'banget'],[/\bsekali\b/gi,'banget'],[/\bsaja\b/gi,'aja'],[/\bkarena\b/gi,'soalnya'],[/\bterima kasih\b/gi,'makasih'],[/\bsemoga\b/gi,'moga'],[/\bkamu\b/gi,'lu'],[/\bbagaimana\b/gi,'gimana'],[/\bmengapa\b/gi,'kenapa'],[/\bsilakan\b/gi,'coba'],[/\blihat\b/gi,'liat'],[/\bsedikit demi sedikit\b/gi,'pelan-pelan']],OPN=['Wkwk','Cuy','Gila','Sumpah','Lah','Weh','Mantul'];
+function slang(t){SL.forEach(([a,b])=>{t=t.replace(a,b)});return Math.random()<.35?OPN[r(0,6)]+', '+t.charAt(0).toLowerCase()+t.slice(1):t}
+const RESP={kasar:['Waduh min, santai dong jangan emosi','Jangan gitu min, ntar jadi bahan screenshot','Admin lagi panas nih kayaknya wkwk','Kurang etis sih min, nama timnas dipertaruhkan','Tarik napas dulu min, tarik napas'],maaf:['Nah gitu dong min, gentle','Salut admin mau minta maaf','Santai min, kita tetep dukung kok','Oke diterima, jangan diulang ya','Respect min, jarang ada yang mau ngaku'],makasih:['Sama-sama min, gas terus!','Siap min, kita selalu dukung','Wih admin bales, makin cinta nih','Santuy min, kita di belakang timnas','Mantul min'],janji:['Awas lho min, kita catet janjinya','Gas! Buktiin di lapangan ya','Ditunggu buktinya min, jangan cuma omong','Amin, moga beneran kejadian','Oke min, kita pegang omongan lu'],tanya:['Nah iya min, jawab dong yang jelas','Pertanyaan bagus tuh, ditunggu jawabannya','Ikut penasaran juga nih','Min jawab dong jangan di-read doang','Coba jelasin pelan-pelan min'],evaluasi:['Bagus min, emang harus dievaluasi','Nah gitu, jangan defensif','Moga evaluasinya beneran jalan ya','Mantap, kritik diterima itu keren','Oke, kita pantau progresnya'],bangga:['Bangga banget sumpah min','Gas terus timnas!','Merinding gue baca balesan lu','Mantul admin','Kita juga bangga min, ayo lanjut'],umum:['Wkwk bisa aja min','Oke min, noted','Siap min','Hmm ok, kita liat aja nanti','Admin aktif banget nih, suka gue']};
+const FRS=['Fair enough, respect','Classy reply, credit to the admin','Okay, did not expect such a calm answer'],FRK=['Lol, admin got heated','Unprofessional reply, honestly','And that is why people hate social media admins'],FRJ=['Words are cheap, show it on the pitch','We will see at the next match','Prove it then'];
+function rk(t){t=t.toLowerCase();
+ if(/(bodoh|goblok|tolol|bacot|diam lu|sampah)/.test(t))return'kasar';
+ if(/(maaf|sorry|khilaf|salah kami)/.test(t))return'maaf';
+ if(/(makasih|terima kasih|thanks|thx|trims)/.test(t))return'makasih';
+ if(/(buktikan|janji|pasti menang|liat aja|lihat saja|tunggu)/.test(t))return'janji';
+ if(/\?|(kenapa|gimana|apa |siapa|kapan)/.test(t))return'tanya';
+ if(/(evaluasi|perbaiki|belajar|kritik)/.test(t))return'evaluasi';
+ if(/(juara|menang|hebat|keren|mantap|bangga)/.test(t))return'bangga';
+ return'umum'}
+function kirim(i,ci){
+ const e=document.getElementById('rt'),t0=e&&e.value.trim();if(!t0)return;
+ const t=t0.replace(/[<>&]/g,m=>({'<':'&lt;','>':'&gt;','&':'&amp;'})[m]),c=G.feed[i].cm[ci],k=rk(t0),R=RESP[k];
+ (c.rp=c.rp||[]).push({u:'@timnas_official',t,f:'🇮🇩',o:1});
+ for(let j=0,n=r(1,2);j<n;j++)c.rp.push({u:'@'+U1[r(0,9)]+U2[r(0,5)]+r(1,99),t:slang(R[r(0,R.length-1)]),f:'🇮🇩'});
+ if(Math.random()<.4){const P2=k=='kasar'?FRK:['maaf','makasih','evaluasi','bangga'].includes(k)?FRS:FRJ;c.rp.push({u:'@'+FH[r(0,7)]+r(1,999),t:P2[r(0,2)],f:FL[r(0,7)]})}
+ if(!c.done){c.done=1;G.pu=cl(G.pu+(k=='kasar'?-3:['maaf','makasih','evaluasi'].includes(k)?1:0),0,100);if(G.pu<=0)G.selesai='fired'}
+ G.op=null;keep(draw)}
+const FO=[['🇸🇬','Straits Football'],['🇲🇾','KL Bola Harian'],['🇳🇱','De Voetbal Krant'],['🇯🇵','Tokyo Sports Net'],['🇦🇺','Aussie Football Wire'],['🇬🇧','Global Football Desk'],['🇸🇦','Gulf Sports Today']];
+const FT={win:['Indonesia stun {o} with a {s} win','Garuda impress as Indonesia beat {o} {s}','{o} stumble against rising Indonesia ({s})'],lose:['{o} too strong for Indonesia, win {s}','Indonesia fall short against {o} ({s})'],draw:['Indonesia hold {o} to a {s} draw','Honours even: Indonesia {s} {o}'],trofi:['Indonesia crowned {t} champions','History made: Indonesia lift the {t}'],qual:['Indonesia book their World Cup place','Indonesia into the World Cup, rivals take note'],out:['Indonesia run ends at the {t}','Indonesia bow out of the {t}'],rank:['Indonesia climb to #{R} in FIFA rankings','Rising force: Indonesia now #{R} in the world'],rankdn:['Indonesia slip to #{R} in FIFA rankings','Indonesia drop in latest FIFA table (#{R})']};
+function fpost(kind,x){const p=({trofi:.8,qual:.7,out:.4,rank:.4,rankdn:.3,win:.2,lose:.2,draw:.15,nat:.5,pers:.3,persn:.4,tunjuk:.6})[kind];if(!p||Math.random()>p)return;const o=FO[r(0,6)],T=FT[kind],h=T[r(0,T.length-1)].replace('{o}',x.o||'').replace('{s}',x.s||'').replace('{t}',x.t||'').replace('{R}',x.R||'').replace('{n}',x.n||'').replace('{m}',G.mg?G.mg.nama:'');post(kind,h,{...x,fo:1,fs:o[0]+' '+o[1]})}
+const ANG=['kecewa parah gue, mainnya males2an','coach kudu mundur nih kalo gini terus','buang2 duit PSSI doang','capek gue, kalah mulu','taktik apaan sih tadi','pemain pada kurang greget, jujur','lini belakang bocor mulu, bosen','udah deh ganti coach aja','nggak ada progres blas','nonton ini bikin darah tinggi'],SUP=['tetep bangga sama kalian, gas lagi','namanya juga bola, kalah menang biasa','jangan di-bully, mereka udah berjuang','dukung terus apapun hasilnya!','bangkit ya garuda, kita di belakang kalian','evaluasi pelan2, jangan panik','kalah hari ini, menang besok','masih panjang jalannya, sabar dulu','yang penting nggak nyerah','salut buat perjuangan kalian'];
+const CS={win:['anjay menang! mainnya enak bgt ditonton','gila sih tadi, kebobolan aja nggak','lawan {o} diajak muter-muter wkwk','gue sampe teriak2 di rumah','coach lu emang gaslah','lini tengah kita nyala bgt','mantul gaes, tiga poin aman','finishing udah mulai tajem nih','gue kira bakal susah, ternyata santuy','timnas lagi on fire cuy'],draw:['yah seri doang, padahal peluang banyak','lumayan lah bawa 1 poin','kurang beruntung aja sih tadi','gemes bgt, tinggal gol dikit lagi','wasitnya kok gitu sih ah','seri tapi mainnya udah enakan','harusnya bisa menang sumpah','nanggung bgt hasilnya','pertahanan masih bolong di menit akhir','oke deh, next game harus menang'],trofi:['JUARAAA!! gue nangis sumpah','akhirnya gaes, penantian panjang kebayar','merinding bgt liat selebrasinya','coach lu legend bgt sih','gila gila gila gue nggak percaya','pesta nih malem ini, traktir semua!','garuda emang the best, titik','trofi masuk lemari, tinggal dipajang'],qual:['LOLOS CUY!! gue teriak di warung kopi','mimpi jadi nyata bgt ini mah','siap-siap nonton piala dunia gaes','grupnya berat tapi kita bisa juga','nangis gue, serius','bangga bgt sumpah sama timnas','jangan puas dulu, masih panjang','tiket udah di tangan, gas!'],nat:['wih pemain baru, semoga cepet nyetel','keren nih, lini kita makin dalem','welcome to the squad bro!','moga nggak kaget sama cuaca sini wkwk','persaingan posisi makin panas nih','penasaran bgt liat debutnya','pemain lokal jangan kalah semangat ya','naturalisasi lagi? gas aja asal kualitas'],rank:['rankingnya naik, lumayan bgt!','pelan2 tapi pasti naik terus','dulu ranking segini cuma mimpi','FIFA mulai noleh ke kita nih','naik ranking, naik juga gengsi wkwk','gas terus biar top 50!','angka doang sih, tapi seneng juga','tren bagus, jaga terus ya']};
+const RSUPR=['santai bro, namanya juga bola','jangan gitu lah, mereka udah berusaha mati2an','kalo kalah dicaci terus, ya makin down dong','lu pikir gampang main di level segini?','boleh kritik, tapi jangan asal ngatain'],RANGR=['terlalu naif lu, kalah mulu masih dibela','dibela terus makanya nggak berkembang','sabar sabar mulu, kapan majunya?','gue juga dukung, tapi nggak buta bro','fans toxic positivity nih'],HD=['chill, he just shared an opinion','typical admin meltdown, lol','imagine getting mad at a comment','not that deep mate, let him talk','admin acting like it is personal, ngl'],RDEFA=['tuh kan, hater kebakaran jenggot wkwk','bener sih admin, hater emang perlu dibales','udah ah jangan ladenin, fokus dukung timnas','admin gaul juga ternyata, suka gue'];
+const LANG={'🇲🇾':'ms','🇳🇱':'nl'};
+const FR={en:{kasar:['lol touched a nerve, huh','wow ok, admin is mad, ngl','calm down mate, it was just a comment'],lembut:['fair enough, respect for that','ok that was actually a decent reply ngl','alright alright, credit to you coach'],janji:['we will see about that, bro','talk is cheap mate, show us on the pitch','ok prove it then, i am watching'],tanya:['honestly? just watch the game again lol','good question tbh, no idea','depends who you ask, mate'],umum:['lol ok','fair, whatever you say','haha alright then']},ms:{kasar:['alamak, relaks lah admin','weh janganlah marah, komen je pun','amboi, panas betul admin ni'],lembut:['okay lah, respect bro','sporting betul admin ni, tabik','boleh tahan jawapan kau'],janji:['tengok nanti lah, jangan cakap je','okay, kami tunggu buktinya','janji tau, kami tengok'],tanya:['entahlah bro, tanya yang lain','soalan best tu, aku pun nak tahu','tengok balik perlawanan tu lah'],umum:['haha okay lah','takpelah, suka hati kau','ye ye okay']},nl:{kasar:['joh, rustig maar, het is maar een reactie','haha admin is boos, tof hoor','kalm blijven, vriend'],lembut:['ok, respect daarvoor','dat was best een nette reactie','prima antwoord, eerlijk'],janji:['we zien het wel, praatjes vullen geen gaatjes','bewijs het dan maar op het veld','ik kijk mee, hoor'],tanya:['geen idee eerlijk gezegd','goeie vraag, weet ik niet','kijk de wedstrijd nog maar eens'],umum:['haha ok dan','prima, zoals je wilt','ja ja, oke']}};
+const SL2=[[/\byang\b/gi,'yg'],[/\bdengan\b/gi,'sama'],[/\buntuk\b/gi,'buat'],[/\btetapi\b/gi,'tapi'],[/\bsedang\b/gi,'lagi'],[/\bhanya\b/gi,'cuma'],[/\bsaya\b/gi,'gue'],[/\bpelatih\b/gi,'coach'],[/\bmenyerang\b/gi,'nyerang'],[/\bbermain\b/gi,'main'],[/\bmengalahkan\b/gi,'ngalahin'],[/\bluar biasa\b/gi,'gila'],[/\bhebat\b/gi,'keren'],[/\bmaksimal\b/gi,'abis-abisan'],[/\btidak percaya\b/gi,'nggak nyangka']],SFX=['sih','nih','dong','deh','lho','kok','wkwk','bgt'];
+function slang(t){[...SL,...SL2].forEach(([a,b])=>{t=t.replace(a,b)});if(Math.random()<.5)t=OPN[r(0,6)]+', '+t.charAt(0).toLowerCase()+t.slice(1);if(Math.random()<.5){const j=t.search(/[,!.?]/);if(j>3)t=t.slice(0,j)+' '+SFX[r(0,7)]+t.slice(j)}return t}
+function rxn(kind,x){
+ const neg=['lose','out','rankdn','persn'].includes(kind);let c;
+ if(!x.fo&&Math.random()<(neg?.7:.4)){const ang=neg&&Math.random()<.5,pl=kind=='persn'?CORE.persn:neg?(ang?ANG:SUP):(CS[kind]||CORE[kind]),t=pl[r(0,pl.length-1)].replace(/\{o\}/g,x.o||'lawan');c={u:'@'+U1[r(0,9)]+U2[r(0,5)]+r(1,99),t:slang(t)+' '+EM[neg?'neg':'pos'][r(0,7)],a:ang?1:0,s:neg&&!ang?1:0}}
+ else{c=rxn0(kind,x);if(!c.f)c.t=slang(c.t)}
+ c.rp=mkRep(c);return c}
+function kirim(i,ci){
+ const e=document.getElementById('rt'),t0=e&&e.value.trim();if(!t0)return;
+ const t=t0.replace(/[<>&]/g,m=>({'<':'&lt;','>':'&gt;','&':'&amp;'})[m]),c=G.feed[i].cm[ci],k=rk(t0),R=RESP[k],rp=c.rp=c.rp||[];
+ const dom=()=>({u:'@'+U1[r(0,9)]+U2[r(0,5)]+r(1,99),f:'🇮🇩'}),pk=a=>a[r(0,a.length-1)];
+ rp.push({u:'@timnas_official',t,f:'🇮🇩',o:1});
+ const g=k=='kasar'?'kasar':['maaf','makasih','evaluasi','bangga'].includes(k)?'lembut':k=='janji'?'janji':k=='tanya'?'tanya':'umum';
+ if(c.f){
+  rp.push({u:c.u,t:pk(FR[LANG[c.f]||'en'][g]),f:c.f,h:c.h});
+  if(c.h&&g=='kasar'){for(let j=0;j<2;j++)rp.push({u:'@'+FH[r(0,7)]+r(1,999),t:pk(HD),f:FL[r(0,7)],h:1})}
+  if(Math.random()<.6)rp.push({...dom(),t:slang(pk(RDEFA))});
+ }else{
+  for(let j=0,n=r(1,2);j<n;j++)rp.push({...dom(),t:slang(pk(R))});
+  if(c.a&&g=='kasar')rp.push({...dom(),t:slang(pk(RANGR))});
+  if(c.s&&g=='kasar')rp.push({...dom(),t:slang(pk(RSUPR))});
+ }
+ if(!c.done){c.done=1;G.pu=cl(G.pu+(k=='kasar'?-3:['maaf','makasih','evaluasi'].includes(k)?1:0),0,100);if(G.pu<=0)G.selesai='fired'}
+ G.op=null;keep(draw)}
+const AS=['Jakarta','Bandung','Surabaya','Medan','Makassar','Yogyakarta','Papua','Bali','Belanda (diaspora)','Lainnya'],PR={eks:'Eks pemain timnas (dihormati publik)',liga:'Juara liga lokal (taktik matang)',aka:'Pelatih akademi (pandai membina pemain)',luar:'Asisten pelatih klub Eropa (relasi luas)',muda:'Pelatih muda berbakat (energik)'};
+function daftar(){const L=window.LM||{};
+ return `<div class='panel end' style='text-align:left'><h2>Buat profil pelatih</h2><p class='msg'>PSSI sedang mencari pelatih timnas baru. Perkenalkan dirimu.</p><label class='fm'>Nama<input id='mn' maxlength='24' value='${L.nama||''}' placeholder='Nama pelatih'></label><label class='fm'>Asal<select id='ma'>${AS.map(a=>`<option ${L.asal==a?'selected':''}>${a}</option>`).join('')}</select></label><label class='fm'>Umur<input id='mu' type='number' min='28' max='75' value='${L.umur||45}'></label><label class='fm'>Prestasi<select id='mp'>${Object.entries(PR).map(([k,v])=>`<option value='${k}' ${L.pres==k?'selected':''}>${v}</option>`).join('')}</select></label><p class='msg'>Prestasi dan umur memberi bonus awal: dana, kepuasan PSSI, ritme, atau stat pemain.</p><button class='go' onclick='mulai()'>Tanda tangan kontrak</button></div>`}
+function mulai(){
+ const g=i=>document.getElementById(i).value,e=s=>s.replace(/[<>&"']/g,'').trim();
+ const nama=e(g('mn'))||'Pelatih Baru',asal=g('ma'),umur=cl(parseInt(g('mu'))||45,28,75),pres=g('mp');
+ G.mg={nama,asal,umur,pres};window.LM=G.mg;
+ if(pres=='eks')G.pu=70;if(pres=='liga'){G.dana+=20;G.fam.bal=3}if(pres=='aka')G.pl.forEach(p=>{p.mental+=3;p.fisik+=2});if(pres=='luar'){G.dana+=15;G.fifa+=30;G.rk=[rank()]}if(pres=='muda')G.ritme=85;
+ if(umur<40)G.ritme=Math.min(100,G.ritme+10);if(umur>=55)G.pu=Math.min(100,G.pu+5);
+ post('tunjuk','PSSI resmi tunjuk Coach '+nama+' ('+umur+' tahun, asal '+asal+') sebagai pelatih timnas. Rekam jejak: '+PR[pres],{o:'',s:'',t:''});
+ G.info='Selamat bertugas, Coach '+nama+'!';draw()}
+const JN=['Rina Puspita','Budi Hartanto','Kevin Alamsyah','Sari Wulandari','Dimas Prakoso','Maya Anggraini'];
+const QS={win:['Selamat atas kemenangannya! Apa kunci permainan hari ini?','Tim tampil meyakinkan. Apa rahasia di balik latihan kalian?','Apakah target tim sekarang dinaikkan?'],draw:['Hasil imbang ini, puas atau kecewa?','Banyak peluang terbuang. Apa evaluasinya?','Apakah stamina pemain jadi masalah hari ini?'],lose:['Publik kecewa dengan kekalahan ini. Tanggapan Anda?','Apakah posisi Anda sebagai pelatih mulai goyah?','Apa yang salah dengan taktik hari ini?'],trofi:['Selamat jadi juara! Apa yang Anda rasakan?','Trofi ini penantian panjang. Apa pesan Anda untuk suporter?'],qual:['Timnas lolos! Apa target berikutnya?','Bagaimana Anda menyiapkan tim menghadapi level dunia?'],out:['Tersingkirnya timnas bikin banyak yang kecewa. Apa tanggapan Anda?','Apakah ada yang akan diubah setelah kegagalan ini?']};
+const ANS={rendah:{n:'Rendah hati',d:'Aman: fokus kerja keras',q:'Ini kerja keras semua pemain dan staf. Kami belum apa-apa, tetap fokus.'},percaya:{n:'Percaya diri',d:'Bagus kalau menang, riskan kalau kalah',q:'Kami datang untuk menang. Saya yakin tim ini bisa lebih jauh.'},salah:{n:'Salahkan pihak lain',d:'Pemain senang, publik marah',q:'Jujur, wasit dan kondisi lapangan merugikan kami hari ini.'},dipl:{n:'Diplomatis',d:'Netral, minim risiko',q:'Saya hargai semua masukan. Kami evaluasi dan siap perbaiki.'}};
+function setPc(kind){const q=QS[kind];G.pc={kind,j:JN[r(0,5)],o:OUT[r(0,3)],q:q[r(0,q.length-1)]}}
+function pers(){
+ if(!G.pc)return'';
+ return `<div class='panel'><h2>Konferensi pers</h2><p class='msg'><b>${G.pc.j}</b> (${G.pc.o}): ${G.pc.q}</p><div class='btns'>${Object.entries(ANS).map(([k,a])=>`<button onclick="jawab('${k}')">${a.n}<small>${a.d}</small></button>`).join('')}</div><div class='qr' style='margin:8px 0 0'><input id='pt' maxlength='140' placeholder='Atau ketik jawabanmu sendiri' onkeydown="if(event.key==='Enter')jawab('x')"><button onclick="jawab('x')">Jawab</button></div><p class='msg'>Tidak hadir di konferensi pers mengurangi 1 kepuasan PSSI.</p></div>`}
+function jawab(k){
+ const pc=G.pc;if(!pc)return;let q,d=0,ng=false,rt=0;const good=['win','trofi','qual'].includes(pc.kind);
+ if(k=='x'){const e=document.getElementById('pt'),t0=e&&e.value.trim();if(!t0)return;q=t0.replace(/[<>&]/g,m=>({'<':'&lt;','>':'&gt;','&':'&amp;'})[m]);d=({kasar:-4,maaf:good?0:1,makasih:1,janji:good?2:-1,tanya:0,evaluasi:2,bangga:1,umum:0})[rk(t0)];ng=d<0}
+ else{const a=ANS[k];q=a.q;if(k=='rendah'){d=2;rt=2}else if(k=='percaya'){d=good?3:-2;ng=!good}else if(k=='salah'){d=-4;rt=4;ng=true}else d=1}
+ G.pu=cl(G.pu+d,0,100);G.ritme=Math.min(100,G.ritme+rt);if(G.pu<=0)G.selesai='fired';
+ post(ng?'persn':'pers',OUT[r(0,3)]+': Coach '+G.mg.nama+' - “'+q.slice(0,80)+'”'+(k=='salah'?', tuding pihak lain':''),{o:'',s:'',t:''});
+ G.pc=null;G.info='Konferensi pers selesai. Reaksi media ada di Media sosial.';draw()}
+const HXS=['@infobola_viral99','@gosipbola_id','BeritaBola.xyz','@bocoran_timnas'],HXT=['EKSKLUSIF: Coach {m} bakal dipecat PSSI minggu depan, ganti pelatih asing','Bocoran: 3 pemain timnas ketahuan pesta malam sebelum laga','Pemain inti nolak dipanggil karena ribut sama pelatih','Naturalisasi gagal total, paspor kandidat bermasalah','Skuad keracunan makanan, laga berikutnya terancam batal','PSSI diam-diam jual kursi pelatih timnas','Pemain bintang cedera parah, musim berakhir'],RLT=['Sumber PSSI: kinerja pelatih dievaluasi di akhir turnamen','Kabar: dua pemain diaspora dipantau untuk naturalisasi','Pemain kunci dikabarkan kelelahan, butuh rotasi','Sponsor besar dikabarkan tertarik ke timnas'];
+function rumorPost(){const hx=Math.random()<.55,src=hx?HXS[r(0,3)]:OUT[r(0,3)],h=(hx?HXT[r(0,6)]:RLT[r(0,3)]).replace('{m}',G.mg.nama);post('hoax',h,{fs:src,rm:{real:!hx,st:'open'},o:'',s:'',t:''})}
+function rmHTML(p,i){if(!p.rm)return'';const m=p.rm;return m.st=='open'?`<div class='qr'><button onclick="rumor(${i},'b')">Bantah</button><button onclick="rumor(${i},'k')">Konfirmasi</button><button onclick="rumor(${i},'a')">Abaikan</button></div><small class='msg'>Belum terverifikasi. Cek sumbernya dulu.</small>`:`<p class='msg'><b>${m.res}</b></p>`}
+function rumor(i,a){
+ const m=G.feed[i].rm;if(!m||m.st!='open')return;m.st=a;let d=0,t;
+ if(a=='b'){d=m.real?-6:3;t=m.real?'Bantahanmu keliru: kabar itu ternyata benar. Kredibilitasmu turun.':'HOAX TERBANTAH. Publik percaya klarifikasimu.'}
+ else if(a=='k'){d=m.real?1:-5;t=m.real?'Terkonfirmasi benar. Kamu dinilai transparan.':'Kamu membenarkan hoax! Media mengkritik keras.'}
+ else if(m.real)t='Kabar benar beredar tanpa tanggapanmu.';else{d=-2;G.ritme=Math.max(0,G.ritme-4);t='Hoax dibiarkan menyebar. Pemain jadi terganggu.'}
+ m.res=t;G.pu=cl(G.pu+d,0,100);if(G.pu<=0)G.selesai='fired';keep(draw)}
+const JT=[['Rina Puspita','ramah'],['Budi Hartanto','kritis'],['Kevin Alamsyah','tabloid'],['Sari Wulandari','ramah'],['Dimas Prakoso','kritis'],['Maya Anggraini','tabloid']];
+const QK=['Banyak pengamat menilai taktik Anda kurang berani. Tanggapan?','Stamina pemain terlihat rendah. Apakah latihan terlalu berat?','Seberapa puas PSSI dengan kinerja Anda sekarang?','Apakah rotasi pemain sudah tepat?'],QT=['Ada kabar pemain inti ribut dengan Anda, benar?','Katanya Anda sering telat ke sesi latihan, bagaimana?','Ada isu kursi Anda akan diganti, mau komentar?','Benarkah ada pemain yang pengin keluar dari timnas?'];
+QS.pra=['Bagaimana persiapan tim menghadapi lawan berikutnya?','Siapa pemain kunci di laga ini?','Apakah Anda sudah tahu kelemahan lawan?'];
+Object.assign(ANS,{rendah:{n:'Rendah hati',d:'Aman, fokus kerja keras',q:'Ini kerja keras semua pemain dan staf. Kami belum apa-apa, tetap fokus.',m:[1,1,2]},percaya:{n:'Percaya diri',d:'Bagus saat menang',q:'Kami datang untuk menang. Saya yakin tim ini bisa lebih jauh.',m:[2,-1,0]},dipl:{n:'Diplomatis',d:'Netral, minim risiko',q:'Saya hargai semua masukan. Kami evaluasi dan siap perbaiki.',m:[1,2,1]},salah:{n:'Salahkan pihak lain',d:'Pemain senang, publik marah',q:'Jujur, wasit dan kondisi lapangan merugikan kami hari ini.',m:[-3,-3,-4]},puji:{n:'Puji pemain',d:'Mental skuad naik',q:'Anak-anak sudah berjuang luar biasa, saya bangga sama mereka.',m:[2,1,1]},canda:{n:'Bercanda',d:'Untung-untungan',q:'Haha, kalau saya telat latihan, jam tangan saya yang salah!',m:[2,-1,2]},nc:{n:'No comment',d:'Aman tapi dingin',q:'Tidak ada komentar untuk saat ini.',m:[-1,-2,1]}});
+function setPc(kind){
+ const ty=sh(['ramah','kritis','tabloid','asing']).slice(0,3),pool={ramah:QS[kind],kritis:QK,tabloid:QT,asing:QA};
+ const qs=ty.map(t=>{const J=sh(JT.filter(j=>j[1]==t))[0],op=G.feed.find(p=>p.rm&&p.rm.st=='open');let q=pool[t][r(0,pool[t].length-1)];if(t=='tabloid'&&op&&Math.random()<.6)q='Beredar kabar: “'+op.head.slice(0,70)+'”. Benarkah?';return{j:J[0],t,o:t=='asing'?FO[r(0,6)][1]:OUT[r(0,3)],q}});
+ G.pc={kind,qs,i:0,tot:0,best:null,last:''}}
+function praPc(){if(G.pc||G.pra||G.main||G.fin)return;G.pra=1;setPc('pra');draw()}
+function pers(){
+ const pc=G.pc;
+ if(!pc)return(G.pra||G.main||G.fin)?'':`<div class='panel'><h2>Konferensi pers</h2><p class='msg'>Wartawan menunggu. Gelar konferensi pers pra-laga untuk memengaruhi hubungan media dan semangat tim.</p><button onclick='praPc()'>Gelar konferensi pers pra-laga</button></div>`;
+ const q=pc.qs[pc.i],tl={ramah:'Ramah',kritis:'Kritis',tabloid:'Tabloid',asing:'Media asing'}[q.t];
+ return `<div class='panel'><h2>Konferensi pers (${pc.i+1}/3)</h2><p class='msg'><b>${q.j}</b> (${q.o}) <span class='tag'>${tl}</span></p><p>${q.q}</p>${pc.last?`<p class='msg'><i>${pc.last}</i></p>`:''}<div class='btns'>${Object.entries(ANS).map(([k,a])=>`<button onclick="jawab('${k}')">${a.n}<small>${a.d}</small></button>`).join('')}</div><div class='qr' style='margin:8px 0 0'><input id='pt' maxlength='140' placeholder='Atau ketik jawabanmu sendiri' onkeydown="if(event.key==='Enter')jawab('x')"><button onclick="jawab('x')">Jawab</button></div><p class='msg'>Hubungan media ${G.med}/100. Lanjut main tanpa menyelesaikannya mengurangi kepuasan PSSI.</p></div>`}
+function jawab(k){
+ const pc=G.pc;if(!pc)return;const q=pc.qs[pc.i],ti=Math.max(0,['ramah','kritis','tabloid'].indexOf(q.t));let qt,d=0;
+ if(k=='x'){const e=document.getElementById('pt'),t0=e&&e.value.trim();if(!t0)return;qt=t0.replace(/[<>&]/g,m=>({'<':'&lt;','>':'&gt;','&':'&amp;'})[m]);d=({kasar:-4,maaf:1,makasih:1,janji:q.t=='ramah'?2:-1,tanya:0,evaluasi:2,bangga:1,umum:0})[rk(t0)]}
+ else{const a=ANS[k];qt=a.q;d=a.m[ti];if(k=='canda'&&Math.random()<.4)d=-2;if(k=='percaya'&&!['win','trofi','qual','pra'].includes(pc.kind))d-=2;if(k=='puji')G.pl.forEach(p=>p.mental=Math.min(95,p.mental+1))}
+ pc.tot+=d;if(!pc.best||Math.abs(d)>=Math.abs(pc.best.d))pc.best={d,qt};
+ G.med=cl(G.med+d*2,0,100);G.pu=cl(G.pu+Math.round(d/2),0,100);if(G.pu<=0)G.selesai='fired';
+ pc.last=d>=2?'Wartawan mengangguk puas.':d>=0?'Jawabanmu diterima biasa saja.':'Ruangan riuh, kilatan kamera di mana-mana.';
+ pc.i++;pc.fl=1;
+ if(pc.i>=3){const b=pc.best,ng=pc.tot<0;post(ng?'persn':'pers',OUT[r(0,3)]+': Coach '+G.mg.nama+(ng?' bikin gaduh: ':' tampil tenang: ')+'“'+b.qt.slice(0,80)+'”',{o:'',s:'',t:''});if(pc.kind=='pra'&&pc.tot>=3)G.ritme=Math.min(100,G.ritme+3);G.info='Konferensi pers selesai (skor '+pc.tot+'). Reaksi ada di Media sosial.';G.pc=null;brk((ng?'GADUH: ':'BREAKING: ')+'Coach '+G.mg.nama+(ng?' bikin heboh di konferensi pers':' tampil meyakinkan di konferensi pers'),ng)}
+ draw()}
+const FOH=[['🇬🇧','Daily Rumour'],['🇧🇷','Futebol Fofoca'],['🇪🇸','El Chisme Deportivo'],['🇮🇹','Calcio Gossip']];
+const HXF=['Indonesia coach {m} wants out for big European club job, sources claim','Indonesia FA accused of paying for friendly wins','Indonesia squad split by dressing room fight, insiders say','Indonesia star refuses to play under {m}','Indonesia ranking points cut by FIFA after paperwork row','Indonesia to be banned from next tournament, report claims'],RLF=['Scouts from Europe watching Indonesia training camps','Asian rivals preparing special plan for Indonesia','Foreign broadcasters bid for Indonesia match rights','Overseas clubs tracking Indonesian diaspora talents'];
+HXT.push('Tiket laga berikutnya ludes dijual calo, harga naik 10 kali lipat','FIFA diam-diam coret poin Indonesia karena administrasi','Pemain naturalisasi baru batal gabung, paspor ditolak','Katanya Coach {m} bilang timnas belum layak ke Piala Dunia','Stadion ditutup mendadak, laga dipindah ke luar negeri','Dugaan penyelewengan dana oleh oknum PSSI, bocoran dokumen beredar','Awas! Jersey timnas diskon 90% ternyata penipuan');
+RLT.push('Kabar: PSSI siapkan bonus untuk juara','Pemain muda berbakat dipromosikan ke timnas','Lawan berikutnya dikabarkan ganti pelatih','Panitia turnamen umumkan jadwal baru');
+FFAN.push(['🇹🇭','Indonesia is getting dangerous, respect from Thailand'],['🇻🇳','Indonesia manh that, chuc mung'],['🇰🇷','Indonesia is no longer an easy opponent'],['🇸🇬','Not bad Indonesia, not bad at all']);
+FHAT.push(['🇻🇳','Still behind us in the table, calm down'],['🇹🇭','Hype again, we will see in the next meeting'],['🇰🇷','Nice story, but wait for real tests']);
+JT.push(['James Whitfield','asing'],['Lars de Vries','asing']);
+const QA=['Do you think Indonesia can compete at world level?','How do you handle the pressure of the naturalisation debate?','Is your team ready for the Asian giants?','What is your message to foreign fans watching Indonesia rise?'];
+Object.assign(FT,{nat:['{n} switches allegiance to Indonesia','Indonesia land {n} in naturalisation coup'],pers:['Indonesia boss {m} impresses in press conference'],persn:['Indonesia boss {m} under fire after press remarks'],tunjuk:['Indonesia appoint {m} as new head coach']});
+function rumorPost(){
+ const hx=Math.random()<.55,fo=Math.random()<.35,f=hx?FOH[r(0,3)]:FO[r(0,6)],src=fo?f[0]+' '+f[1]:hx?HXS[r(0,3)]:OUT[r(0,3)],pl=fo?(hx?HXF:RLF):(hx?HXT:RLT);
+ post('hoax',pl[r(0,pl.length-1)].replace('{m}',G.mg.nama),{fs:src,fo:fo?1:0,rm:{real:!hx,st:'open'},o:'',s:'',t:''})}
+function rmHTML(p,i){
+ if(!p.rm)return'';const m=p.rm;
+ if(m.st!='open')return`<p class='msg'><b>${m.res}</b></p>`;
+ return `<div class='qr'><button onclick="rumor(${i},'b')">Bantah</button><button onclick="rumor(${i},'k')">Konfirmasi</button><button onclick="rumor(${i},'a')">Abaikan</button>${m.rev?'':`<button onclick="rumor(${i},'c')">Cek fakta (5 dana)</button>`}</div><small class='msg'>${m.rev?'Hasil cek fakta: '+(m.real?'KABAR BENAR':'HOAX'):'Belum terverifikasi. Cek sumbernya dulu.'}</small>`}
+function rumor(i,a){
+ const m=G.feed[i].rm;if(!m||m.st!='open')return;
+ if(a=='c'){if(G.dana<5||m.rev)return;G.dana-=5;m.rev=1;keep(draw);return}
+ m.st=a;let d=0,t;
+ if(a=='b'){d=m.real?-6:3;t=m.real?'Bantahanmu keliru: kabar itu ternyata benar. Kredibilitasmu turun.':'HOAX TERBANTAH. Publik percaya klarifikasimu.'}
+ else if(a=='k'){d=m.real?1:-5;t=m.real?'Terkonfirmasi benar. Kamu dinilai transparan.':'Kamu membenarkan hoax! Media mengkritik keras.'}
+ else if(m.real)t='Kabar benar beredar tanpa tanggapanmu.';else{d=-2;G.ritme=Math.max(0,G.ritme-4);t='Hoax dibiarkan menyebar. Pemain jadi terganggu. Awas, bisa makin viral.';(G.vir=G.vir||[]).push(G.feed[i].head)}
+ if(a=='b'&&!m.real)G.med=Math.min(100,G.med+4);
+ m.res=t;G.pu=cl(G.pu+d,0,100);if(G.pu<=0)G.selesai='fired';keep(draw)}
+function viral(){if(G.vir&&G.vir.length){const h=G.vir.shift();post('persn','Hoax “'+h.slice(0,60)+'” makin viral, publik bingung',{fs:'@viral_update',o:'',s:'',t:''});G.pu=cl(G.pu-1,0,100);G.med=Math.max(0,G.med-3)}}
+function brk(t,ng){const d=document.createElement('div');d.className='brk'+(ng?' neg':'');d.textContent='📰 '+t;document.body.appendChild(d);setTimeout(()=>d.remove(),3700)}
+function pscene(fl){
+ const aud=Array.from({length:9},(_,i)=>{const x=40+i*64,y=128+(i%2)*6;return `<g><circle cx='${x}' cy='${y}' r='11' fill='#0b0f1a' opacity='.9'/><rect x='${x-14}' y='${y+8}' width='28' height='22' rx='8' fill='#0b0f1a' opacity='.9'/>${i%3==0?`<rect x='${x-9}' y='${y-4}' width='18' height='11' rx='2' fill='#555'/><circle cx='${x}' cy='${y+1}' r='3' fill='#9ad'/><circle class='fl' style='animation-delay:${i*.37}s' cx='${x+11}' cy='${y-6}' r='3' fill='#fff'/>`:''}</g>`}).join('');
+ return `<div class='pscene${fl?' flash':''}'><svg viewBox='0 0 600 160' role='img' aria-label='Ruang konferensi pers'><defs><linearGradient id='pbg' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#1b2540'/><stop offset='1' stop-color='#0b0f1a'/></linearGradient></defs><rect width='600' height='160' fill='url(#pbg)'/><rect x='150' y='8' width='300' height='56' rx='6' fill='#c8102e'/><text x='300' y='34' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='700' fill='#fff'>KONFERENSI PERS</text><text x='300' y='53' text-anchor='middle' font-size='11' fill='#ffe14d' letter-spacing='4'>TIMNAS INDONESIA</text><circle cx='300' cy='84' r='12' fill='#e8c9a8'/><rect x='280' y='95' width='40' height='26' rx='8' fill='#1d1a17'/><rect x='255' y='104' width='90' height='34' rx='4' fill='#7a0a1c'/><rect x='255' y='104' width='90' height='5' fill='#ffe14d' opacity='.8'/><line x1='284' y1='104' x2='284' y2='96' stroke='#ccc' stroke-width='2'/><circle cx='284' cy='94' r='3' fill='#ccc'/><line x1='316' y1='104' x2='316' y2='96' stroke='#ccc' stroke-width='2'/><circle cx='316' cy='94' r='3' fill='#ccc'/>${aud}<rect class='flashbg' width='600' height='160' fill='#fff'/></svg></div>`}
+const PIC={rendah:'🙏',percaya:'😎',puji:'👏',dipl:'🤝',canda:'😄',salah:'👆',nc:'🤐'};
+function pers(){
+ const pc=G.pc;
+ if(!pc)return(G.pra||G.main||G.fin)?'':`<div class='panel pcard'><h2>Konferensi pers</h2>${pscene(0)}<p class='msg'>Wartawan menunggu. Gelar konferensi pers pra-laga untuk memengaruhi hubungan media dan semangat tim.</p><button onclick='praPc()' style='width:100%;text-align:center'>🎤 Gelar konferensi pers pra-laga</button></div>`;
+ const fl=pc.fl;pc.fl=0;
+ const q=pc.qs[pc.i],T={ramah:['Ramah','#2f7d4f','Pujian dan percaya diri disukai'],kritis:['Kritis','#d98a00','Jawaban diplomatis lebih aman'],tabloid:['Tabloid','#c8102e','Jangan terpancing gosip'],asing:['Media asing','#1f6feb','Tampil tenang dan profesional']}[q.t];
+ const ini=q.j.split(' ').map(w=>w[0]).join(''),mood=pc.tot>=3?'😄':pc.tot>=0?'🙂':pc.tot>=-3?'😬':'😠';
+ const dots=[0,1,2].map(i=>`<i class='pd ${i<pc.i?'dn':i==pc.i?'on':''}'></i>`).join('');
+ const ans=Object.entries(ANS).map(([k,a])=>`<button onclick="jawab('${k}')"><span class='ic'>${PIC[k]}</span><span><b>${a.n}</b><small>${a.d}</small></span></button>`).join('');
+ return `<div class='panel pcard'><h2>Konferensi pers</h2>${pscene(fl)}<div class='pdots'>${dots}</div><div class='pj'><div class='pav' style='background:${T[1]}'>${ini}</div><div style='flex:1'><b>${q.j}</b><small>${q.o} · <span class='tag' style='background:${T[1]}'>${T[0]}</span></small></div><div class='pm' title='Suasana ruangan'>${mood}</div></div><div class='pq'><p>${q.q}</p></div><p class='msg'>${T[2]}.${pc.last?' <i>'+pc.last+'</i>':''}</p><div class='ans'>${ans}</div><div class='qr' style='margin:8px 0 0'><input id='pt' maxlength='140' placeholder='Atau ketik jawabanmu sendiri' onkeydown="if(event.key==='Enter')jawab('x')"><button onclick="jawab('x')">Jawab</button></div><p class='msg' style='margin-bottom:2px'>Suasana ruangan</p>${bar(cl(50+pc.tot*10,0,100),pc.tot<0?'low':'')}<p class='msg'>Hubungan media ${G.med}/100. Lanjut main tanpa menyelesaikannya mengurangi kepuasan PSSI.</p></div>`}
+const OUT=['Bola Nusantara','Garuda Daily','Sepak Indonesia','Liga Pagi'];
+function news(k,x){
+ const h={nat:[x.n+' resmi jadi WNI, siap perkuat timnas','Sah! '+x.n+' disumpah dan bergabung ke Garuda','Kabar gembira: proses naturalisasi '+x.n+' rampung','PSSI umumkan '+x.n+' sebagai amunisi baru timnas'],rank:['Peringkat FIFA Indonesia naik ke #'+x.R,'Garuda melonjak '+x.d+' tingkat, kini #'+x.R,'Rapor positif: Indonesia di ranking #'+x.R+' dunia','Tren naik berlanjut, Indonesia kini peringkat '+x.R],rankdn:['Ranking FIFA Indonesia turun ke #'+x.R,'Garuda merosot '+x.d+' tingkat ke #'+x.R,'Hasil kurang bagus, peringkat Indonesia kini '+x.R,'Peringkat FIFA melorot, evaluasi dibutuhkan']};
+ return OUT[r(0,3)]+': '+h[k][r(0,3)]}
+const FN=['Dean','Mika','Tim','Luca','Noah','Rico','Sven','Jesse','Ruben','Kai','Milan','Daan','Bryan','Stefano','Ivan','Marc','Nick','Rafa','Gio','Tom'],LN=['de Boer','van Dijk','Pattiwael','Latupeirissa','Tahapary','Wattimena','Manusama','Souisa','Tuanakotta','Kastanja','Huliselan','Sahertian','Rumakiek','Kusuma','Santoso','Lekatompessy','Bakker','Mahulette'],PO=['KIP','BEK','BEK','GEL','GEL','SAY','PEN','PEN'];
+function repP(){const e=document.getElementById('rep');return e&&e.value>=0&&G.pl[e.value]}
+function scout(q){
+ const cost=q?30:10;if(G.main||G.dana<cost)return;G.dana-=cost;
+ for(let k=0;k<3;k++){const o=q?r(64,80):r(52,66),s=[0,1,2,3].map(()=>cl(o+r(-6,6),30,95)),ov=Math.round(s.reduce((a,b)=>a+b)/4);G.cand.unshift({n:FN[r(0,19)]+' '+LN[r(0,17)],p:PO[r(0,7)],s,o:ov,c:Math.max(20,Math.round(ov*.9-12))})}
+ G.cand=G.cand.slice(0,6);G.info='Scouting selesai: 3 kandidat baru ditemukan.';draw()}
+function natg(i){
+ const c=G.cand[i];if(!c||G.main||G.dana<c.c)return;G.dana-=c.c;G.cand.splice(i,1);
+ const ov=p=>p.fisik+p.teknik+p.taktik+p.mental;let cd=G.pl.filter(p=>p.p==c.p);if(!cd.length)cd=G.pl;
+ const w=repP()||cd.reduce((a,b)=>ov(a)<ov(b)?a:b);
+ G.pl[G.pl.indexOf(w)]={n:c.n,p:c.p,fisik:c.s[0],teknik:c.s[1],taktik:c.s[2],mental:c.s[3],lelah:0,nat:1};
+ G.info=c.n+' resmi menjadi WNI dan menggantikan '+w.n+'.';post('nat',news('nat',{n:c.n}),{n:c.n,o:'',s:'',t:''});draw()}
+function scoutUI(){
+ const rp=`<select id='rep' style='width:100%;padding:8px;margin:6px 0;border-radius:8px;background:var(--bg);color:var(--ink);border:1px solid var(--line)'><option value='-1'>Pemain yang digantikan: otomatis (terlemah di posisi sama)</option>${G.pl.map((p,i)=>`<option value='${i}'>${p.n} (${p.p})</option>`).join('')}</select>`;
+ const cs=G.cand.map((c,i)=>`<button onclick='natg(${i})' ${G.main||G.dana<c.c?'disabled':''}>${c.n}<small>${c.p} · OVR ${c.o} · ${c.c} dana</small></button>`).join('');
+ return `<h2 style='margin:14px 0 6px'>Cari pemain diaspora</h2><div class='btns'><button onclick='scout(0)' ${G.main||G.dana<10?'disabled':''}>Scout biasa<small>10 dana · 3 kandidat OVR 52-66</small></button><button onclick='scout(1)' ${G.main||G.dana<30?'disabled':''}>Scout elite<small>30 dana · 3 kandidat OVR 64-80</small></button></div>${rp}<div class='btns'>${cs||"<p class='msg'>Belum ada kandidat. Mulai scouting.</p>"}</div>`}
+function selesaiLaga(lw){
+ const [a,b]=G.skor;G.gf+=a;G.ga+=b;
+ let hasil;
+ if(a>b){G.poin+=3;G.dana+=20;G.w++;hasil="Menang"}else if(a==b){G.poin+=1;G.dana+=8;G.d++;hasil="Seri"}else{G.l++;hasil="Kalah"}
+ G.pl.forEach(p=>{p.lelah=cl(p.lelah+r(10,18)+(G.tak=="prs"?6:0)+OPT.tempo.v[G.tempo].f,0,100);p.mental=Math.min(95,p.mental+(a>b?1:0))});
+ G.hist.push(a>b?"W":a==b?"D":"L");G.skip=0;G.pekan++;afterMatch(a,b);G.ritme=Math.max(0,G.ritme-6);
+ G.info=`${hasil} ${a}-${b} lawan ${lw}. `+G.info;
+ G.main=false;
+ 
+ draw();
+}
+function cell(p,k){return `<span>${p[k]}${p.g&&p.gs==k?`<em class="up">+${p.g}</em>`:""}${bar(p[k])}</span>`}
+function bar(v,c){return `<div class="m ${c||''}"><div style="width:${v}%"></div></div>`}
+function draw(){
+ const A=document.getElementById("app");
+ if(!G.mg){A.innerHTML=daftar();return}
+ if(G.offer&&!G.selesai){A.innerHTML=ofer();return}
+ if(G.selesai){
+  const lolos=G.poin>=TARGET;
+  A.innerHTML=`<div class="panel end"><h2>${G.selesai=='fired'?'Kamu dipecat PSSI':'Kontrak tidak diperpanjang'}</h2>
+  <p>${G.poin} poin dari ${G.hist.length} laga. Rank FIFA akhir #${rank()}, ${Object.values(G.tr).filter(v=>v=='gold').length} trofi. Menang ${G.w}, seri ${G.d}, kalah ${G.l}. Gol ${G.gf}-${G.ga}.</p>
+  <p class="msg">Coba taktik dan rotasi latihan berbeda untuk mengisi kabinet trofi.</p>${kabinet()}<p></p>
+  <button class="go" onclick="baru()">Main lagi</button></div>`;return;
+ }
+ const lw=cur();
+ const pbtn=Object.entries(PROG).map(([k,p])=>`<button onclick="latih('${k}')" ${G.main||(p.s&&!G.pl.some(q=>100-q.lelah>=p.f+8))?'disabled':''}>${p.n}<small>${p.d}</small></button>`).join("");
+ const tbtn=Object.entries(TAK).map(([k,t])=>`<button class="${G.tak==k?"on":""}" onclick="setTak('${k}')" ${G.main?"disabled":""}>${t.n}<small>Familiar ${G.fam[k]||0}</small></button>`).join("");
+ const fbtn=Object.entries(FORM).map(([k,f])=>`<button class="${G.form==k?"on":""}" onclick="setForm('${k}')" ${G.main?"disabled":""}>${k}</button>`).join("");
+ const nbtn=NAT.filter(c=>!G.nat.includes(c.n)).slice(0,4).map(c=>`<button onclick="natur(${NAT.indexOf(c)})" ${G.main||G.dana<c.c?"disabled":""}>${c.n}<small>${c.p} · biaya ${c.c} dana</small></button>`).join("")||"<p class=\"msg\">Semua kandidat sudah dinaturalisasi.</p>";
+ const seg=Object.entries(OPT).map(([ok,o])=>`<div class="seg"><span>${o.lbl}</span>${Object.entries(o.v).map(([vk,v])=>`<button class="${G[ok]==vk?"on":""}" onclick="setOpt('${ok}','${vk}')" ${G.main?"disabled":""}>${v.n}</button>`).join("")}</div>`).join("");
+ const rows=G.pl.map(p=>`<div class="pl"><div class="n">${p.n}<i class="pp ${p.p}">${p.p}${p.nat?" · naturalisasi":""}</i></div>
+  ${cell(p,"fisik")}${cell(p,"teknik")}${cell(p,"taktik")}${cell(p,"mental")}<span>${100-p.lelah}${bar(100-p.lelah,p.lelah>65?"low":p.lelah>35?"fat":"")}</span></div>`).join("");
+ const pitch=(G.main||G.log.length&&G.menit)?`<div id="pitch"><div class="min" id="pmin">Menit ${G.menit}</div><div class="score" id="psc">${G.skor[0]} - ${G.skor[1]}</div><div>Indonesia vs ${G.vs||""}</div><div class="field"><i class="mid"></i><i class="circ"></i><i class="gl l"></i><i class="gl r"></i><span class="ball" id="ball" style="left:${G.ball}%"></span><b id="banner"></b></div><div id="log">${G.log.map(l=>`<p>${l}</p>`).join("")||"<p>Peluit dibunyikan.</p>"}</div></div>`:"";
+ A.innerHTML=`
+ ${hero()}${pssi()}${pers()}<div class="bar"><div class="stat"><b>#${rank()}</b><span>Rank FIFA</span></div><div class="stat"><b>${G.sesi}</b><span>Sesi turnamen ini</span></div><div class="stat"><b>${rating().toFixed(1)}</b><span>Rating tim</span></div><div class="stat"><b>${G.kon}</b><span>Sisa kontrak</span></div></div>
+ ${pitch}
+ ${tpanel()}${dash()}<div class="panel"><h2>Sesi latihan (tanpa batas)</h2><div class="btns">${pbtn}</div><p class="msg">${G.info}</p><p class="msg">Aturan: sesi latihan tidak dibatasi, selagi stamina pemain cukup. Pemain yang staminanya di bawah biaya sesi tidak ikut latihan. Lewati hari gratis tapi menurunkan ritme.</p></div>
+ <div class="panel"><h2>Taktik lawan ${lw[0]} (kekuatan ${lw[1]})</h2><p class="msg" style="margin:0 0 8px">${lw[2]=="atk"?"Lawan suka menyerang: Serangan Balik atau Bertahan efektif.":lw[2]=="def"?"Lawan bertahan rapat: Menyerang atau Tekanan Tinggi efektif.":"Lawan bermain seimbang."}</p><div class="tac">${tbtn}</div><div class="tac" style="margin-top:6px">${fbtn}</div>${board()}<div class="segs">${seg}</div>
+ <p class="msg" style="margin-bottom:10px">${TAK[G.tak].x} Formasi ${G.form}. Makin sering dipakai atau dilatih, makin familiar (bonus sampai 15%).</p>
+ ${G.fin?`<button class="go" onclick="lanjut()">${nextName()}</button>`:`<button class="go" onclick="laga()" ${G.main?"disabled":""}>${G.main?"Laga berlangsung...":"Mulai pertandingan: "+lw[0]}</button>`}</div>
+ ${sosmed()}${kabinet()}<div class="panel"><h2>Naturalisasi (dana ${G.dana})</h2><div class="btns">${nbtn}</div><p class="msg">Menang +20 dana, seri +8. Pemain baru menggantikan yang terlemah di posisi sama. Statistik hanya rekaan.</p>${scoutUI()}</div>
+ <div class="panel"><h2>Skuad</h2>
+ <div class="pl hd"><div>Pemain</div><span>Fisik</span><span>Teknik</span><span>Taktik</span><span>Mental</span><span>Stamina</span></div>${rows}</div>`;
+ const lg=document.getElementById("log");if(lg)lg.scrollTop=lg.scrollHeight;
+}
+baru();
+</script>
+</body>
+</html>
